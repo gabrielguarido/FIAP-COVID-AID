@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -33,7 +34,12 @@ public class Usuario {
 	@GeneratedValue(generator = "usuario", strategy = GenerationType.SEQUENCE)
 	private Long id;
 
-	// private Endereco endereco; // TODO: Criar entidades relacionais
+	/**
+	 * Atributo endereco
+	 */
+	@NotNull
+	@JoinColumn(name = "ID_ENDERECO", referencedColumnName = "id")
+	private Endereco endereco;
 
 	/**
 	 * Atributo nome

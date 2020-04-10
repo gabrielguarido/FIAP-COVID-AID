@@ -8,8 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import com.sun.istack.NotNull;
+
 /**
- * Classe responsável por mapear a entidade ESTADO.
+ * Classe responsável por mapear a tabela ESTADOS no banco de dados.
  *
  * @author Brazil Code - Gustavo Zotarelli
  * @since 10 de abr de 2020 15:15:10
@@ -30,6 +32,7 @@ public class Estado {
 	/**
 	 * Atributo descricao
 	 */
+	@NotNull
 	@Column(length = 50)
 	private String descricao;
 

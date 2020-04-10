@@ -6,14 +6,14 @@ import br.com.fiap.nac.dao.EnderecoDao;
 import br.com.fiap.nac.entity.Endereco;
 
 /**
- * Classe responsÃ¡vel por ...
+ * Classe responsável por implementar os métodos do repositório {@link EnderecoDAO}.
  *
  * @author Brazil Code - Andrew Pereira
  * @since Apr 10, 2020 4:14:42 PM
  * @version 1.0
  */
-public class EnderecoDAOImpl extends GenericDAOImpl<Endereco, Long> implements EnderecoDao{
-	
+public class EnderecoDAOImpl extends GenericDAOImpl<Endereco, Long> implements EnderecoDao {
+
 	/**
 	 * Construtor da classe EnderecoDAOImpl
 	 *
