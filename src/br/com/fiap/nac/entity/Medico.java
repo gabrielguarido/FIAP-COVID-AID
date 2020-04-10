@@ -1,6 +1,7 @@
 package br.com.fiap.nac.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,6 +35,7 @@ public class Medico {
 	/**
 	 * Atributo usuario
 	 */
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ID_USUARIO", referencedColumnName = "id")
 	private Usuario usuario;
@@ -48,6 +50,7 @@ public class Medico {
 	 * Atributo area
 	 */
 	@NotNull
+	@Column(length = 20)
 	private String area;
 
 	/**
@@ -58,9 +61,8 @@ public class Medico {
 	 * @param crm
 	 * @param area
 	 */
-	public Medico(Long id, Usuario usuario, String crm, String area) {
+	public Medico(Usuario usuario, String crm, String area) {
 		super();
-		this.id = id;
 		this.usuario = usuario;
 		this.crm = crm;
 		this.area = area;
