@@ -1,7 +1,10 @@
 package br.com.fiap.nac.entity;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +14,8 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import com.sun.istack.NotNull;
+
+import br.com.fiap.nac.enumerator.StatusPacienteEnum;
 
 /**
  * Classe responsável por mapear a entidade PACIENTE.
@@ -42,6 +47,7 @@ public class Paciente {
 	 * Atributo cpf
 	 */
 	@NotNull
+	@Column(length = 15)
 	private String cpf;
 
 	/**
@@ -51,6 +57,13 @@ public class Paciente {
 	private int idade;
 
 	/**
+	 * Atributo status
+	 */
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	private StatusPacienteEnum status;
+	
+	/**
 	 * Construtor da classe Paciente
 	 *
 	 * @param id
@@ -58,12 +71,12 @@ public class Paciente {
 	 * @param cpf
 	 * @param idade
 	 */
-	public Paciente(Long id, Usuario usuario, String cpf, int idade) {
+	public Paciente(Usuario usuario, String cpf, int idade) {
 		super();
-		this.id = id;
 		this.usuario = usuario;
 		this.cpf = cpf;
 		this.idade = idade;
+		this.status = StatusPacienteEnum.LARANJA;
 	}
 
 	public Long getId() {
