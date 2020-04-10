@@ -14,7 +14,7 @@ import javax.persistence.Table;
 import com.sun.istack.NotNull;
 
 /**
- * Classe responsável por mapear a entidade MEDICO.
+ * Classe responsável por mapear a tabela MEDICOS no banco de dados.
  *
  * @author Brazil Code - Gabriel Guarido
  * @since 9 de abr de 2020 21:08:33
