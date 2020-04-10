@@ -3,7 +3,7 @@ package br.com.fiap.nac.dao;
 import br.com.fiap.nac.entity.Medico;
 
 /**
- * Classe responsável por implementar um reositório para {@link Medico}.
+ * Classe responsável por implementar um repositório para {@link Medico}.
  *
  * @author Brazil Code - Gabriel Guarido
  * @since 9 de abr de 2020 21:50:10
