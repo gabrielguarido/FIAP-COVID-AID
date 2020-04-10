@@ -68,6 +68,13 @@ public class Medico {
 		this.area = area;
 	}
 
+	/**
+	 * Construtor da classe Medico
+	 */
+	public Medico() {
+
+	}
+
 	public Long getId() {
 		return id;
 	}

@@ -6,7 +6,7 @@ import br.com.fiap.nac.dao.PacienteDAO;
 import br.com.fiap.nac.entity.Paciente;
 
 /**
- * Classe responsável por ...
+ * Classe responsável por implementar os métodos do repositório {@link PacienteDAO}.
  *
  * @author Brazil Code - Gabriel Guarido
  * @since 9 de abr de 2020 21:52:32
