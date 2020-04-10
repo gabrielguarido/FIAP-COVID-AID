@@ -17,7 +17,7 @@ import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
  * @since 9 de abr de 2020 22:13:20
  * @version 1.0
  */
-public class ConsoleView {
+public class UsuarioConsoleView {
 
 	/**
 	 * Método responsável por realizar o CRUD das entidades.

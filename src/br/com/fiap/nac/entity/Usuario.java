@@ -66,7 +66,7 @@ public class Usuario {
 	 * Atributo dataCadastro
 	 */
 	@NotNull
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.DATE)
 	private Calendar dataCadastro;
 
 	/**
