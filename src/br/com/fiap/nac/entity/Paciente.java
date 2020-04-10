@@ -62,7 +62,7 @@ public class Paciente {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private StatusPacienteEnum status;
-	
+
 	/**
 	 * Construtor da classe Paciente
 	 *
@@ -77,6 +77,13 @@ public class Paciente {
 		this.cpf = cpf;
 		this.idade = idade;
 		this.status = StatusPacienteEnum.LARANJA;
+	}
+
+	/**
+	 * Construtor da classe Paciente
+	 */
+	public Paciente() {
+
 	}
 
 	public Long getId() {
