@@ -1,12 +1,14 @@
 package br.com.fiap.nac.dao;
 
-import java.util.Optional;
-
 import br.com.fiap.nac.entity.Cidade;
-import br.com.fiap.nac.exception.CommitException;
-import br.com.fiap.nac.exception.ResourceNotFoundException;
 
+/**
+ * Classe responsável por implementar um repositório para {@link Cidade}.
+ *
+ * @author Brazil Code - Andrew Pereira
+ * @since 10 de abr de 2020 16:21:08
+ * @version 1.0
+ */
 public interface CidadeDao extends GenericDAO<Cidade, Long> {
-
 
 }
