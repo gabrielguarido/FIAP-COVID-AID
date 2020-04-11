@@ -18,7 +18,7 @@ import com.sun.istack.NotNull;
 import br.com.fiap.nac.enumerator.StatusPacienteEnum;
 
 /**
- * Classe responsável por mapear a entidade PACIENTE.
+ * Classe responsável por mapear a tabela PACIENTES no banco de dados.
  *
  * @author Brazil Code - Gabriel Guarido
  * @since 9 de abr de 2020 21:16:05
@@ -39,6 +39,7 @@ public class Paciente {
 	/**
 	 * Atributo usuario
 	 */
+	@NotNull
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "ID_USUARIO", referencedColumnName = "id")
 	private Usuario usuario;
@@ -62,7 +63,7 @@ public class Paciente {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private StatusPacienteEnum status;
-	
+
 	/**
 	 * Construtor da classe Paciente
 	 *
@@ -77,6 +78,13 @@ public class Paciente {
 		this.cpf = cpf;
 		this.idade = idade;
 		this.status = StatusPacienteEnum.LARANJA;
+	}
+
+	/**
+	 * Construtor da classe Paciente
+	 */
+	public Paciente() {
+
 	}
 
 	public Long getId() {
