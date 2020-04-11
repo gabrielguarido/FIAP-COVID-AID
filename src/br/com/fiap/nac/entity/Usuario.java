@@ -2,7 +2,6 @@ package br.com.fiap.nac.entity;
 
 import java.util.Calendar;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,7 +37,7 @@ public class Usuario {
 	 * Atributo endereco
 	 */
 	@JoinColumn(name = "ID_ENDERECO", unique = false, nullable = false)
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	private Endereco endereco;
 
 	/**
