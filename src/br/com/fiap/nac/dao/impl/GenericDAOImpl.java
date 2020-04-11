@@ -1,9 +1,11 @@
 package br.com.fiap.nac.dao.impl;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import br.com.fiap.nac.dao.GenericDAO;
 import br.com.fiap.nac.exception.CommitException;
@@ -21,7 +23,7 @@ public class GenericDAOImpl<T, K> implements GenericDAO<T, K> {
 	/**
 	 * Atributo em
 	 */
-	private EntityManager em;
+	protected EntityManager em;
 
 	/**
 	 * Atributo clazz
@@ -52,6 +54,13 @@ public class GenericDAOImpl<T, K> implements GenericDAO<T, K> {
 	@Override
 	public Optional<T> findOne(K id) {
 		return Optional.ofNullable(em.find(clazz, id));
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Optional<List<T>> findAll() {
+		Query query = em.createQuery("SELECT u FROM Usuario u");
+		return Optional.ofNullable(query.getResultList());
 	}
 
 	@Override

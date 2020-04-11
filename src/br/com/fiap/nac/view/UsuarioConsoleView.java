@@ -1,6 +1,8 @@
 package br.com.fiap.nac.view;
 
 import java.util.Calendar;
+import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
@@ -12,6 +14,7 @@ import br.com.fiap.nac.entity.Endereco;
 import br.com.fiap.nac.entity.Usuario;
 import br.com.fiap.nac.exception.CommitException;
 import br.com.fiap.nac.exception.ResourceNotFoundException;
+import br.com.fiap.nac.exception.UniqueConstraintViolationException;
 import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
 
 /**
@@ -55,18 +58,25 @@ public class UsuarioConsoleView {
 			Endereco endereco = findAddress();
 
 			// Criando e cadastrando novo Usuario
-			Usuario usuario = new Usuario(endereco, "Gabriel", "Oliveira", "gabriel", "123", Calendar.getInstance());
+			Usuario usuario = new Usuario(endereco, "Teste", "Teste", "teste", "123", Calendar.getInstance());
 			saveUser(usuario);
 
 			// Buscando Usuario existente
-			System.out.println(findUser(ID_TESTE).toString());
+			Usuario usuarioBD = findUser(usuario.getId());
+			System.out.println(usuarioBD.toString());
 
 			// Atualizando a senha do Usuario
-			updateUser(usuario);
-			System.out.println("Senha atualizada: " + findUser(ID_TESTE).getSenha());
+			updateUser(usuarioBD);
+			System.out.println("Senha atualizada: " + usuarioBD.getSenha());
 
 			// Removendo Usuario
-			deleteUser(ID_TESTE);
+			deleteUser(usuarioBD.getId());
+
+			// Buscando todos os Usuarios existentes
+			List<Usuario> listaUsuarios = findAllUsers();
+			listaUsuarios.forEach(us -> {
+				System.out.println(us.toString());
+			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -75,7 +85,7 @@ public class UsuarioConsoleView {
 	}
 
 	/**
-	 * Método responsável por buscar um {@link Endereco} qualquer no banco de dados para teste.
+	 * Método responsável por buscar um {@link Endereco} no banco de dados de acordo com o ID recebido por parâmetro.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @return
@@ -86,19 +96,26 @@ public class UsuarioConsoleView {
 	}
 
 	/**
-	 * Método responsável por inserir um novo {@link Usuario} no banco de dados. 
+	 * Método responsável por inserir um novo {@link Usuario} no banco de dados, verificando antes se o nome de usuario informado
+	 * está disponível para uso.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @param usuario
 	 * @throws CommitException
+	 * @throws UniqueConstraintViolationException
 	 */
-	private static void saveUser(Usuario usuario) throws CommitException {
-		usuarioDAO.save(usuario);
-		usuarioDAO.commit();
+	private static void saveUser(Usuario usuario) throws CommitException, UniqueConstraintViolationException {
+		// Verificando se o nome de usuario já está sendo usado
+		if (Optional.ofNullable(usuarioDAO.findByUsername(usuario.getUsuario())).isPresent()) {
+			throw new UniqueConstraintViolationException("O nome de usuario informado já está em uso, escolha outro");
+		} else {
+			usuarioDAO.save(usuario);
+			usuarioDAO.commit();
+		}
 	}
 
 	/**
-	 * Método responsável por buscar um {@link Usuario} qualquer no banco de dados para teste.
+	 * Método responsável por buscar um {@link Usuario} no banco de dados de acordo com o ID recebido por parâmetro.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @param id
@@ -123,8 +140,28 @@ public class UsuarioConsoleView {
 		usuarioDAO.commit();
 	}
 
-	private static void deleteUser(Long id) throws ResourceNotFoundException {
+	/**
+	 * Método responsável por remover um {@link Usuario} no banco de dados de acordo com o ID recebido por parâmetro.
+	 *
+	 * @author Brazil Code - Gabriel Guarido
+	 * @param id
+	 * @throws ResourceNotFoundException
+	 * @throws CommitException
+	 */
+	private static void deleteUser(Long id) throws ResourceNotFoundException, CommitException {
 		usuarioDAO.delete(id);
+		usuarioDAO.commit();
+	}
+
+	/**
+	 * Método responsável por buscar todos os {@link Usuario}'s existentes no banco de dados.
+	 *
+	 * @author Brazil Code - Gabriel Guarido
+	 * @return
+	 * @throws ResourceNotFoundException
+	 */
+	private static List<Usuario> findAllUsers() throws ResourceNotFoundException {
+		return usuarioDAO.findAll().orElseThrow(() -> new ResourceNotFoundException("Nenhum usuário cadastrado"));
 	}
 
 }
