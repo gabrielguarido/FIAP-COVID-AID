@@ -49,16 +49,14 @@ public class GenericDAOImpl<T, K> implements GenericDAO<T, K> {
 		em.merge(entity);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Optional<T> findOne(K id) {
-		return (Optional<T>) em.find(clazz, id);
+		return Optional.ofNullable(em.find(clazz, id));
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public void delete(K id) throws ResourceNotFoundException {
-		Optional<T> entity = (Optional<T>) findOne(id).orElseThrow(() -> new ResourceNotFoundException());
+		T entity = findOne(id).orElseThrow(() -> new ResourceNotFoundException());
 		em.remove(entity);
 	}
 

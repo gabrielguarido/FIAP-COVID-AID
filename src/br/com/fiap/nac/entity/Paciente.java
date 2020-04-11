@@ -13,8 +13,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sun.istack.NotNull;
-
 import br.com.fiap.nac.enumerator.StatusPacienteEnum;
 
 /**
@@ -39,29 +37,27 @@ public class Paciente {
 	/**
 	 * Atributo usuario
 	 */
-	@NotNull
+	@JoinColumn(name = "ID_USUARIO", unique = true, nullable = false)
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "ID_USUARIO", referencedColumnName = "id")
 	private Usuario usuario;
 
 	/**
 	 * Atributo cpf
 	 */
-	@NotNull
-	@Column(length = 15)
+	@Column(length = 15, nullable = false, unique = true)
 	private String cpf;
 
 	/**
 	 * Atributo idade
 	 */
-	@NotNull
+	@Column(nullable = false)
 	private int idade;
 
 	/**
 	 * Atributo status
 	 */
-	@NotNull
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private StatusPacienteEnum status;
 
 	/**
@@ -117,6 +113,11 @@ public class Paciente {
 
 	public void setIdade(int idade) {
 		this.idade = idade;
+	}
+
+	@Override
+	public String toString() {
+		return "Paciente [id=" + id + ", usuario=" + usuario + ", cpf=" + cpf + ", idade=" + idade + ", status=" + status + "]";
 	}
 
 }

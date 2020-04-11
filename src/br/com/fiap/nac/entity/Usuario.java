@@ -2,18 +2,18 @@ package br.com.fiap.nac.entity;
 
 import java.util.Calendar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import com.sun.istack.NotNull;
 
 /**
  * Classe responsável por mapear a entidade USUARIO no banco de dados.
@@ -37,15 +37,14 @@ public class Usuario {
 	/**
 	 * Atributo endereco
 	 */
-	@NotNull
-	@JoinColumn(name = "ID_ENDERECO", referencedColumnName = "id")
+	@JoinColumn(name = "ID_ENDERECO", unique = false, nullable = false)
+	@OneToOne(cascade = CascadeType.ALL)
 	private Endereco endereco;
 
 	/**
 	 * Atributo nome
 	 */
-	@NotNull
-	@Column(length = 50)
+	@Column(length = 50, nullable = false)
 	private String nome;
 
 	/**
@@ -57,36 +56,35 @@ public class Usuario {
 	/**
 	 * Atributo usuario
 	 */
-	@NotNull
-	@Column(length = 20)
+	@Column(length = 20, nullable = false, unique = true)
 	private String usuario;
 
 	/**
 	 * Atributo senha
 	 */
-	@NotNull
-	@Column(length = 15)
+	@Column(length = 15, nullable = false)
 	private String senha;
 
 	/**
 	 * Atributo dataCadastro
 	 */
-	@NotNull
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "DATA_CADASTRO", nullable = false)
 	private Calendar dataCadastro;
 
 	/**
 	 * Construtor da classe Usuario
 	 *
-	 * @param id
+	 * @param endereco
 	 * @param nome
 	 * @param ultimoNome
 	 * @param usuario
 	 * @param senha
 	 * @param dataCadastro
 	 */
-	public Usuario(String nome, String ultimoNome, String usuario, String senha, Calendar dataCadastro) {
+	public Usuario(Endereco endereco, String nome, String ultimoNome, String usuario, String senha, Calendar dataCadastro) {
 		super();
+		this.endereco = endereco;
 		this.nome = nome;
 		this.ultimoNome = ultimoNome;
 		this.usuario = usuario;
@@ -94,9 +92,6 @@ public class Usuario {
 		this.dataCadastro = dataCadastro;
 	}
 
-	/**
-	 * Construtor da classe Usuario
-	 */
 	public Usuario() {
 		super();
 	}
@@ -107,6 +102,14 @@ public class Usuario {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Endereco getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(Endereco endereco) {
+		this.endereco = endereco;
 	}
 
 	public String getNome() {
@@ -147,6 +150,12 @@ public class Usuario {
 
 	public void setDataCadastro(Calendar dataCadastro) {
 		this.dataCadastro = dataCadastro;
+	}
+
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", endereco=" + endereco + ", nome=" + nome + ", ultimoNome=" + ultimoNome + ", usuario="
+				+ usuario + ", senha=" + senha + ", dataCadastro=" + dataCadastro + "]";
 	}
 
 }

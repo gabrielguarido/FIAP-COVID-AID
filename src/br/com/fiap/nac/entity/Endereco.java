@@ -11,8 +11,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sun.istack.NotNull;
-
 /**
  * Classe responsável por mapear a tabela ENDERECOS no banco de dados.
  *
@@ -30,39 +28,37 @@ public class Endereco {
 	 */
 	@Id
 	@GeneratedValue(generator = "endereco", strategy = GenerationType.SEQUENCE)
-	private int id;
+	private Long id;
 
 	/**
 	 * Atributo bairro
 	 */
-	@NotNull
-	@Column(length = 30)
+	@Column(length = 30, nullable = false)
 	private String bairro;
 
 	/**
 	 * Atributo cep
 	 */
-	@NotNull
-	@Column(length = 10)
+	@Column(length = 10, nullable = false)
 	private String cep;
 
 	/**
 	 * Atributo complemento
 	 */
+	@Column(length = 150)
 	private String complemento;
 
 	/**
 	 * Atributo logradouro
 	 */
-	@NotNull
+	@Column(length = 100, nullable = false)
 	private String logradouro;
 
 	/**
 	 * Atributo cidade
 	 */
-	@NotNull
+	@JoinColumn(name = "ID_CIDADE", unique = false, nullable = false)
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_cidade", referencedColumnName = "id")
 	private Cidade cidade;
 
 	/**
@@ -90,11 +86,11 @@ public class Endereco {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -136,6 +132,12 @@ public class Endereco {
 
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
+	}
+
+	@Override
+	public String toString() {
+		return "Endereco [id=" + id + ", bairro=" + bairro + ", cep=" + cep + ", complemento=" + complemento + ", logradouro="
+				+ logradouro + ", cidade=" + cidade + "]";
 	}
 
 }
