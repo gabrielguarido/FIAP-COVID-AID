@@ -11,8 +11,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sun.istack.NotNull;
-
 /**
  * Classe responsável por mapear a tabela CIDADES no banco de dados.
  *
@@ -31,21 +29,19 @@ public class Cidade {
 	 */
 	@Id
 	@GeneratedValue(generator = "cidade", strategy = GenerationType.SEQUENCE)
-	private int id;
+	private Long id;
 
 	/**
 	 * Atributo descricao
 	 */
-	@NotNull
-	@Column(length = 30)
+	@Column(length = 30, nullable = false)
 	private String descricao;
 
 	/**
 	 * Atributo estado
 	 */
-	@NotNull
+	@JoinColumn(name = "ID_ESTADO", unique = false, nullable = false)
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_estado", referencedColumnName = "id")
 	private Estado estado;
 
 	/**
@@ -67,11 +63,11 @@ public class Cidade {
 		super();
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -89,6 +85,11 @@ public class Cidade {
 
 	public void setEstado(Estado estado) {
 		this.estado = estado;
+	}
+
+	@Override
+	public String toString() {
+		return "Cidade [id=" + id + ", descricao=" + descricao + ", estado=" + estado + "]";
 	}
 
 }
