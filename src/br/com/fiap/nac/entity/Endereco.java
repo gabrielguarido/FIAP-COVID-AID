@@ -1,6 +1,5 @@
 package br.com.fiap.nac.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -58,7 +57,7 @@ public class Endereco {
 	 * Atributo cidade
 	 */
 	@JoinColumn(name = "ID_CIDADE", unique = false, nullable = false)
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	private Cidade cidade;
 
 	/**

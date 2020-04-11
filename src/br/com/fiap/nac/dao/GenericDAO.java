@@ -1,5 +1,6 @@
 package br.com.fiap.nac.dao;
 
+import java.util.List;
 import java.util.Optional;
 
 import br.com.fiap.nac.exception.CommitException;
@@ -38,6 +39,14 @@ public interface GenericDAO<T, K> {
 	 * @return
 	 */
 	Optional<T> findOne(K id);
+
+	/**
+	 * Método responsável por buscar todas as entidades cadastradas.
+	 *
+	 * @author Brazil Code - Gabriel Guarido
+	 * @return
+	 */
+	Optional<List<T>> findAll();
 
 	/**
 	 * Método responsável por remover uma entidade.
