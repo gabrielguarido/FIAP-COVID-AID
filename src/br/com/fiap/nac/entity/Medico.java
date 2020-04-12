@@ -53,16 +53,15 @@ public class Medico {
 	/**
 	 * Construtor da classe Medico
 	 *
-	 * @param id
 	 * @param usuario
 	 * @param crm
 	 * @param area
 	 */
 	public Medico(Usuario usuario, String crm, String area) {
 		super();
-		this.usuario = usuario;
-		this.crm = crm;
-		this.area = area;
+		setUsuario(usuario);
+		setCrm(crm);
+		setArea(area);
 	}
 
 	/**

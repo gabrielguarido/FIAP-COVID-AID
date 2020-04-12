@@ -1,5 +1,7 @@
 package br.com.fiap.nac.dao;
 
+import java.util.Optional;
+
 import br.com.fiap.nac.entity.Estado;
 
 /**
@@ -10,5 +12,23 @@ import br.com.fiap.nac.entity.Estado;
  * @version 1.0
  */
 public interface EstadoDAO extends GenericDAO<Estado, Long> {
+
+	/**
+	 * Método responsável por buscar um {@link Descricao} filtrando pela descrição do estado informado.
+	 *
+	 * @author Brazil Code - Gustavo Zotarelli
+	 * @param descricao
+	 * @return
+	 */
+	Optional<Estado> findByDescricao(String descricao);
+
+	/**
+	 * Método responsável por buscar um {@link Uf} filtrando pela uf do estado informado.
+	 *
+	 * @author Brazil Code - Gustavo Zotarelli
+	 * @param uf
+	 * @return
+	 */
+	Optional<Estado> findByUf(String uf);
 
 }

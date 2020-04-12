@@ -64,16 +64,15 @@ public class Paciente {
 	/**
 	 * Construtor da classe Paciente
 	 *
-	 * @param id
 	 * @param usuario
 	 * @param cpf
 	 * @param idade
 	 */
 	public Paciente(Usuario usuario, String cpf, int idade) {
 		super();
-		this.usuario = usuario;
-		this.cpf = cpf;
-		this.idade = idade;
+		setUsuario(usuario);
+		setCpf(cpf);
+		setId(id);
 		this.status = StatusPacienteEnum.LARANJA;
 	}
 

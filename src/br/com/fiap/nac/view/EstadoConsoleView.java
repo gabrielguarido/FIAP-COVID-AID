@@ -1,11 +1,16 @@
 package br.com.fiap.nac.view;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 
 import br.com.fiap.nac.dao.EstadoDAO;
 import br.com.fiap.nac.dao.impl.EstadoDAOImpl;
 import br.com.fiap.nac.entity.Estado;
+import br.com.fiap.nac.exception.CommitException;
+import br.com.fiap.nac.exception.ResourceNotFoundException;
+import br.com.fiap.nac.exception.UniqueConstraintViolationException;
 import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
 
 /**
@@ -18,30 +23,110 @@ import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
 public class EstadoConsoleView {
 
 	/**
-	 * Método responsável por realizar o CRUD da entidade.
+	 * Atributo EM
+	 */
+	private static final EntityManager EM = EntityManagerFactorySingleton.getInstance().createEntityManager();
+
+	/**
+	 * Atributo estadoDAO
+	 */
+	private static EstadoDAO estadoDAO = new EstadoDAOImpl(EM);
+
+	/**
+	 * Atributo ID_ESTADO
+	 */
+	private static final Long ID_ESTADO = 1L;
+
+	/**
+	 * Método responsável por realizar o CRUD da entidade {@link Estado}.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// Initiate factory
-		EntityManagerFactory factory = EntityManagerFactorySingleton.getInstance();
-		EntityManager em = factory.createEntityManager();
-
-		EstadoDAO estadoDAO = new EstadoDAOImpl(em);
-		Estado estado = new Estado("São Paulo");
-
-		// Persist entity
 		try {
-			estadoDAO.save(estado);
-			estadoDAO.commit();
+			// Criando e cadastrando novo Estado
+			Estado estado = new Estado("BrRaszília", "DF");
+			saveState(estado);
+			System.out.println("Estado cadastrado com sucesso");
+
+			// Atualizando Estado cadastro
+			updateState(estado);
+			System.out.println("Estado atualizado: " + estado.getDescricao());
+
+			// Removendo Estado
+			deleteState(estado.getId());
+			System.out.println("Estado excluído com sucesso!");
+
+			// Buscando todos os Estados existentes
+			List<Estado> listaEstados = findAllStates();
+			listaEstados.forEach(es -> {
+				System.out.println(es.toString());
+			});
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			EM.close();
 		}
+	}
 
-		// Closing factory n entity manager
-		em.close();
-		factory.close();
+	/**
+	 * Método responsável por inserri um novo {@link Estado} no banco de dados, veriricando se o estado e a uf já não se encontram
+	 * cadastrados no sistema.
+	 *
+	 * @author Brazil Code - Gustavo Zotarelli
+	 * @param estado
+	 * @throws CommitException
+	 * @throws UniqueConstraintViolationException
+	 */
+	private static void saveState(Estado estado) throws CommitException, UniqueConstraintViolationException {
+		// Verifica se o estado ou a uf já estão cadastrados.
+		if (Optional.ofNullable(estadoDAO.findByDescricao(estado.getDescricao())).isPresent()
+				|| Optional.ofNullable(estadoDAO.findByUf(estado.getUf())).isPresent()) {
+			throw new UniqueConstraintViolationException("Estado ou UF já cadastrados, por favor verifique.");
+		} else {
+			estadoDAO.save(estado);
+			estadoDAO.commit();
+
+		}
+	}
+
+	/**
+	 * Método responsável por atualizar as informações de um {@link Estado} no banco de dados de acordo com os dados recebidos no
+	 * objeto que está sendo passado por parâmetro.
+	 *
+	 * @author Brazil Code - Gustavo Zotarelli
+	 * @param estado
+	 * @throws CommitException
+	 */
+	public static void updateState(Estado estado) throws CommitException {
+		estado.setDescricao("Brasília");
+		estadoDAO.update(estado);
+		estadoDAO.commit();
+	}
+
+	/**
+	 * Método responsável por remover um {@link Estado} no banco de dados de acordo com o ID recebido por parâmetro.
+	 *
+	 * @author Brazil Code - Gustavo Zotarelli
+	 * @param id
+	 * @throws ResourceNotFoundException
+	 * @throws CommitException
+	 */
+	public static void deleteState(Long id) throws ResourceNotFoundException, CommitException {
+		estadoDAO.delete(id);
+		estadoDAO.commit();
+	}
+
+	/**
+	 * Método responsável por buscar todos os {@link Estado}'s existentes no banco de dados.
+	 *
+	 * @author Brazil Code - Gustavo Zotarelli
+	 * @return
+	 * @throws ResourceNotFoundException
+	 */
+	public static List<Estado> findAllStates() throws ResourceNotFoundException {
+		return estadoDAO.findAll().orElseThrow(() -> new ResourceNotFoundException("Não existem estados cadastrados"));
 	}
 
 }
