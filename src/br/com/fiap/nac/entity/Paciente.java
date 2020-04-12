@@ -5,6 +5,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -13,12 +14,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sun.istack.NotNull;
-
 import br.com.fiap.nac.enumerator.StatusPacienteEnum;
 
 /**
- * Classe responsável por mapear a entidade PACIENTE.
+ * Classe responsável por mapear a tabela PACIENTES no banco de dados.
  *
  * @author Brazil Code - Gabriel Guarido
  * @since 9 de abr de 2020 21:16:05
@@ -39,28 +38,27 @@ public class Paciente {
 	/**
 	 * Atributo usuario
 	 */
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "ID_USUARIO", referencedColumnName = "id")
+	@JoinColumn(name = "ID_USUARIO", unique = true, nullable = false)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Usuario usuario;
 
 	/**
 	 * Atributo cpf
 	 */
-	@NotNull
-	@Column(length = 15)
+	@Column(length = 15, nullable = false, unique = true)
 	private String cpf;
 
 	/**
 	 * Atributo idade
 	 */
-	@NotNull
+	@Column(nullable = false)
 	private int idade;
 
 	/**
 	 * Atributo status
 	 */
-	@NotNull
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private StatusPacienteEnum status;
 
 	/**
@@ -116,6 +114,11 @@ public class Paciente {
 
 	public void setIdade(int idade) {
 		this.idade = idade;
+	}
+
+	@Override
+	public String toString() {
+		return "Paciente [id=" + id + ", usuario=" + usuario + ", cpf=" + cpf + ", idade=" + idade + ", status=" + status + "]";
 	}
 
 }

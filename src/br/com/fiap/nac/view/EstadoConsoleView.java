@@ -27,10 +27,10 @@ public class EstadoConsoleView {
 		// Initiate factory
 		EntityManagerFactory factory = EntityManagerFactorySingleton.getInstance();
 		EntityManager em = factory.createEntityManager();
-		
+
 		EstadoDAO estadoDAO = new EstadoDAOImpl(em);
 		Estado estado = new Estado("São Paulo");
-		
+
 		// Persist entity
 		try {
 			estadoDAO.save(estado);
@@ -38,7 +38,7 @@ public class EstadoConsoleView {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		// Closing factory n entity manager
 		em.close();
 		factory.close();

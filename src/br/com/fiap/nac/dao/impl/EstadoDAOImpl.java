@@ -21,7 +21,6 @@ public class EstadoDAOImpl extends GenericDAOImpl<Estado, Long> implements Estad
 	 */
 	public EstadoDAOImpl(EntityManager em) {
 		super(em);
-		// TODO Auto-generated constructor stub
 	}
 
 }
