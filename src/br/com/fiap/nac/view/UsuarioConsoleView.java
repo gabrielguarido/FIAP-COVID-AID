@@ -58,7 +58,7 @@ public class UsuarioConsoleView {
 			Endereco endereco = findAddress();
 
 			// Criando e cadastrando novo Usuario
-			Usuario usuario = new Usuario(endereco, "Teste", "Teste", "teste", "123", Calendar.getInstance());
+			Usuario usuario = new Usuario(endereco, "Teste", "Teste", "gabriel", "123", Calendar.getInstance());
 			saveUser(usuario);
 
 			// Buscando Usuario existente
@@ -105,13 +105,10 @@ public class UsuarioConsoleView {
 	 * @throws UniqueConstraintViolationException
 	 */
 	private static void saveUser(Usuario usuario) throws CommitException, UniqueConstraintViolationException {
-		// Verificando se o nome de usuario já está sendo usado
-		if (Optional.ofNullable(usuarioDAO.findByUsername(usuario.getUsuario())).isPresent()) {
-			throw new UniqueConstraintViolationException("O nome de usuario informado já está em uso, escolha outro");
-		} else {
-			usuarioDAO.save(usuario);
-			usuarioDAO.commit();
-		}
+		// Validando os campos unique antes de tentar salvar no banco de dados
+		validateUniqueFields(usuario);
+		usuarioDAO.save(usuario);
+		usuarioDAO.commit();
 	}
 
 	/**
@@ -162,6 +159,25 @@ public class UsuarioConsoleView {
 	 */
 	private static List<Usuario> findAllUsers() throws ResourceNotFoundException {
 		return usuarioDAO.findAll().orElseThrow(() -> new ResourceNotFoundException("Nenhum usuário cadastrado"));
+	}
+
+	/**
+	 * Método responsável por validar todos os campos unique, para evitar erro de Constraint Violation no banco de dados.
+	 *
+	 * @author Brazil Code - Gabriel Guarido
+	 * @param usuario
+	 * @return
+	 * @throws UniqueConstraintViolationException
+	 */
+	private static void validateUniqueFields(Usuario usuario) throws UniqueConstraintViolationException {
+		StringBuilder critics = new StringBuilder();
+		if (Optional.ofNullable(usuarioDAO.findByUsername(usuario.getUsuario())).isPresent()) {
+			critics.append(", o nome de usuario informado já está em uso");
+		}
+
+		if (critics.length() > 1) {
+			throw new UniqueConstraintViolationException("Críticas" + critics.toString());
+		}
 	}
 
 }
