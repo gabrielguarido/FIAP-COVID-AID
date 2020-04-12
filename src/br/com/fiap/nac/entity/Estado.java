@@ -34,6 +34,12 @@ public class Estado {
 	private String descricao;
 
 	/**
+	 * Atributo uf
+	 */
+	@Column(length = 2, nullable = false, unique = true)
+	private String uf;
+
+	/**
 	 * Construtor da classe Estado
 	 */
 	public Estado() {
@@ -44,10 +50,12 @@ public class Estado {
 	 * Construtor da classe Estado
 	 *
 	 * @param descricao
+	 * @param uf
 	 */
-	public Estado(String descricao) {
+	public Estado(String descricao, String uf) {
 		super();
 		setDescricao(descricao);
+		setUf(uf);
 	}
 
 	public Long getId() {
@@ -64,6 +72,14 @@ public class Estado {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf;
 	}
 
 	@Override

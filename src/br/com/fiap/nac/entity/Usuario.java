@@ -83,12 +83,12 @@ public class Usuario {
 	 */
 	public Usuario(Endereco endereco, String nome, String ultimoNome, String usuario, String senha, Calendar dataCadastro) {
 		super();
-		this.endereco = endereco;
-		this.nome = nome;
-		this.ultimoNome = ultimoNome;
-		this.usuario = usuario;
-		this.senha = senha;
-		this.dataCadastro = dataCadastro;
+		setEndereco(endereco);
+		setNome(nome);
+		setUltimoNome(ultimoNome);
+		setUsuario(usuario);
+		setSenha(senha);
+		setDataCadastro(dataCadastro);
 	}
 
 	public Usuario() {
