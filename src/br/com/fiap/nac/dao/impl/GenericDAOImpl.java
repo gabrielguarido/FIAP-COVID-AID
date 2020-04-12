@@ -35,10 +35,9 @@ public class GenericDAOImpl<T, K> implements GenericDAO<T, K> {
 	 *
 	 * @param em
 	 */
-	@SuppressWarnings("unchecked")
 	public GenericDAOImpl(EntityManager em) {
 		this.em = em;
-		this.clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+		this.clazz = this.getTypeClass();
 	}
 
 	@Override
@@ -59,7 +58,7 @@ public class GenericDAOImpl<T, K> implements GenericDAO<T, K> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Optional<List<T>> findAll() {
-		Query query = em.createQuery("SELECT u FROM Usuario u");
+		Query query = em.createQuery("SELECT t FROM " + getTypeClass().getName() + " t");
 		return Optional.ofNullable(query.getResultList());
 	}
 
@@ -79,6 +78,17 @@ public class GenericDAOImpl<T, K> implements GenericDAO<T, K> {
 			e.printStackTrace();
 			throw new CommitException();
 		}
+	}
+
+	/**
+	 * Método responsável por fazer o parse da Classe T recebida para o Objeto que utilizará a implementação.
+	 *
+	 * @author Brazil Code - Gabriel Guarido
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private Class<T> getTypeClass() {
+		return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 }
