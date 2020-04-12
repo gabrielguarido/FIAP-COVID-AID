@@ -85,7 +85,8 @@ public class UsuarioConsoleView {
 	}
 
 	/**
-	 * Método responsável por buscar um {@link Endereco} no banco de dados de acordo com o ID recebido por parâmetro.
+	 * Método responsável por buscar um {@link Endereco} no banco de dados de acordo com o ID recebido por parâmetro. Se nenhum
+	 * registro for encontrado uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @return
@@ -97,7 +98,7 @@ public class UsuarioConsoleView {
 
 	/**
 	 * Método responsável por inserir um novo {@link Usuario} no banco de dados, verificando antes se o nome de usuario informado
-	 * está disponível para uso.
+	 * está disponível para uso. Se o nome de usuário já tiver sido cadastrado para outro Usuario, uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @param usuario
@@ -105,17 +106,15 @@ public class UsuarioConsoleView {
 	 * @throws UniqueConstraintViolationException
 	 */
 	private static void saveUser(Usuario usuario) throws CommitException, UniqueConstraintViolationException {
-		// Verificando se o nome de usuario já está sendo usado
-		if (Optional.ofNullable(usuarioDAO.findByUsername(usuario.getUsuario())).isPresent()) {
-			throw new UniqueConstraintViolationException("O nome de usuario informado já está em uso, escolha outro");
-		} else {
-			usuarioDAO.save(usuario);
-			usuarioDAO.commit();
-		}
+		// Validando os campos unique antes de tentar salvar no banco de dados
+		validateUniqueFields(usuario);
+		usuarioDAO.save(usuario);
+		usuarioDAO.commit();
 	}
 
 	/**
-	 * Método responsável por buscar um {@link Usuario} no banco de dados de acordo com o ID recebido por parâmetro.
+	 * Método responsável por buscar um {@link Usuario} no banco de dados de acordo com o ID recebido por parâmetro. Se nenhum
+	 * registro for encontrado uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @param id
@@ -141,7 +140,8 @@ public class UsuarioConsoleView {
 	}
 
 	/**
-	 * Método responsável por remover um {@link Usuario} no banco de dados de acordo com o ID recebido por parâmetro.
+	 * Método responsável por remover um {@link Usuario} no banco de dados de acordo com o ID recebido por parâmetro. Se o
+	 * registro que será deletado não for encontrado uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @param id
@@ -154,7 +154,8 @@ public class UsuarioConsoleView {
 	}
 
 	/**
-	 * Método responsável por buscar todos os {@link Usuario}'s existentes no banco de dados.
+	 * Método responsável por buscar todos os {@link Usuario}'s existentes no banco de dados. Se nenhum registro for encontrado
+	 * uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @return
@@ -162,6 +163,26 @@ public class UsuarioConsoleView {
 	 */
 	private static List<Usuario> findAllUsers() throws ResourceNotFoundException {
 		return usuarioDAO.findAll().orElseThrow(() -> new ResourceNotFoundException("Nenhum usuário cadastrado"));
+	}
+
+	/**
+	 * Método responsável por validar todos os campos unique, para evitar erro de Constraint Violation no banco de dados. Se
+	 * alguma chave estrangeira for violada uma exceção será lançada.
+	 *
+	 * @author Brazil Code - Gabriel Guarido
+	 * @param usuario
+	 * @return
+	 * @throws UniqueConstraintViolationException
+	 */
+	private static void validateUniqueFields(Usuario usuario) throws UniqueConstraintViolationException {
+		StringBuilder critics = new StringBuilder();
+		if (Optional.ofNullable(usuarioDAO.findByUsername(usuario.getUsuario())).isPresent()) {
+			critics.append(", o nome de usuario informado já está em uso");
+		}
+
+		if (critics.length() > 1) {
+			throw new UniqueConstraintViolationException("Críticas" + critics.toString());
+		}
 	}
 
 }
