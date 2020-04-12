@@ -28,7 +28,7 @@ public class EstadoDAOImpl extends GenericDAOImpl<Estado, Long> implements Estad
 
 	@Override
 	public Optional<Estado> findByDescricao(final String descricao) {
-		TypedQuery<Estado> query = this.em.createQuery("SELECT e FROM Estado e WHERE e.descricao = :descricao", Estado.class);
+		TypedQuery<Estado> query = this.em.createQuery("SELECT e FROM Estado e WHERE LOWER(e.descricao) LIKE LOWER(:descricao)", Estado.class);
 		query.setParameter("descricao", descricao);
 
 		if (query.getResultList().isEmpty()) {
@@ -40,7 +40,7 @@ public class EstadoDAOImpl extends GenericDAOImpl<Estado, Long> implements Estad
 
 	@Override
 	public Optional<Estado> findByUf(final String uf) {
-		TypedQuery<Estado> query = this.em.createQuery("SELECT e FROM Estado e WHERE UPPER (e.uf) = UPPER(:uf)", Estado.class);
+		TypedQuery<Estado> query = this.em.createQuery("SELECT e FROM Estado e WHERE LOWER(e.uf) LIKE LOWER(:uf)", Estado.class);
 		query.setParameter("uf", uf);
 
 		if (query.getResultList().isEmpty()) {

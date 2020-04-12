@@ -14,21 +14,21 @@ import br.com.fiap.nac.entity.Estado;
 public interface EstadoDAO extends GenericDAO<Estado, Long> {
 
 	/**
-	 * Método responsável por buscar um {@link Descricao} filtrando pela descrição do estado informado.
+	 * Método responsável por buscar um {@link Estado} filtrando pela DESCRICAO informada.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 * @param descricao
 	 * @return
 	 */
-	Optional<Estado> findByDescricao(String descricao);
+	Optional<Estado> findByDescricao(final String descricao);
 
 	/**
-	 * Método responsável por buscar um {@link Uf} filtrando pela uf do estado informado.
+	 * Método responsável por buscar um {@link Estado} filtrando pela UF informada.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 * @param uf
 	 * @return
 	 */
-	Optional<Estado> findByUf(String uf);
+	Optional<Estado> findByUf(final String uf);
 
 }

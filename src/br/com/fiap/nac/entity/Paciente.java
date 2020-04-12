@@ -73,7 +73,7 @@ public class Paciente {
 		setUsuario(usuario);
 		setCpf(cpf);
 		setId(id);
-		this.status = StatusPacienteEnum.LARANJA;
+		setStatus(StatusPacienteEnum.LARANJA);
 	}
 
 	/**
@@ -113,6 +113,14 @@ public class Paciente {
 
 	public void setIdade(int idade) {
 		this.idade = idade;
+	}
+
+	public StatusPacienteEnum getStatus() {
+		return status;
+	}
+
+	public void setStatus(StatusPacienteEnum status) {
+		this.status = status;
 	}
 
 	@Override
