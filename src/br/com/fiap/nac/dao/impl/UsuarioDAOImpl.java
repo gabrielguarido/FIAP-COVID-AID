@@ -28,7 +28,7 @@ public class UsuarioDAOImpl extends GenericDAOImpl<Usuario, Long> implements Usu
 
 	@Override
 	public Optional<Usuario> findByUsername(final String username) {
-		TypedQuery<Usuario> query = this.em.createQuery("SELECT u FROM Usuario u WHERE u.usuario = :username", Usuario.class);
+		TypedQuery<Usuario> query = this.em.createQuery("SELECT u FROM Usuario u WHERE LOWER(u.usuario) LIKE LOWER(:username)", Usuario.class);
 		query.setParameter("username", username);
 
 		/**
