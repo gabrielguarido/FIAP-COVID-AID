@@ -8,8 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sun.istack.NotNull;
-
 /**
  * Classe responsável por mapear a tabela ESTADOS no banco de dados.
  *
@@ -32,8 +30,7 @@ public class Estado {
 	/**
 	 * Atributo descricao
 	 */
-	@NotNull
-	@Column(length = 50)
+	@Column(length = 50, nullable = false, unique = true)
 	private String descricao;
 
 	/**
@@ -67,6 +64,11 @@ public class Estado {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	@Override
+	public String toString() {
+		return "Estado [id=" + id + ", descricao=" + descricao + "]";
 	}
 
 }
