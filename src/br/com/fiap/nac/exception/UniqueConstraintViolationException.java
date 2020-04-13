@@ -1,5 +1,12 @@
 package br.com.fiap.nac.exception;
 
+/**
+ * Classe responsável por configurar uma exceção personalizada para violação de chaves únicas.
+ *
+ * @author Brazil Code - Gabriel Guarido
+ * @since 13 de abr de 2020 09:00:50
+ * @version 1.0
+ */
 public class UniqueConstraintViolationException extends Exception {
 
 	/**
