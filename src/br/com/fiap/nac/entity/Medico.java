@@ -3,6 +3,8 @@ package br.com.fiap.nac.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import br.com.fiap.nac.enumerator.AreaMedicinaEnum;
 
 /**
  * Classe responsável por mapear a tabela MEDICOS no banco de dados.
@@ -48,21 +52,21 @@ public class Medico {
 	 * Atributo area
 	 */
 	@Column(length = 20, nullable = false)
-	private String area;
+	@Enumerated(EnumType.STRING)
+	private AreaMedicinaEnum area;
 
 	/**
 	 * Construtor da classe Medico
 	 *
-	 * @param id
 	 * @param usuario
 	 * @param crm
 	 * @param area
 	 */
-	public Medico(Usuario usuario, String crm, String area) {
+	public Medico(Usuario usuario, String crm, AreaMedicinaEnum area) {
 		super();
-		this.usuario = usuario;
-		this.crm = crm;
-		this.area = area;
+		setUsuario(usuario);
+		setCrm(crm);
+		setArea(area);
 	}
 
 	/**
@@ -96,11 +100,11 @@ public class Medico {
 		this.crm = crm;
 	}
 
-	public String getArea() {
+	public AreaMedicinaEnum getArea() {
 		return area;
 	}
 
-	public void setArea(String area) {
+	public void setArea(AreaMedicinaEnum area) {
 		this.area = area;
 	}
 
