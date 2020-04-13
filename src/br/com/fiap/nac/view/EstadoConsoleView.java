@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import br.com.fiap.nac.dao.EstadoDAO;
 import br.com.fiap.nac.dao.impl.EstadoDAOImpl;
 import br.com.fiap.nac.entity.Estado;
+import br.com.fiap.nac.entity.Usuario;
 import br.com.fiap.nac.exception.CommitException;
 import br.com.fiap.nac.exception.ResourceNotFoundException;
 import br.com.fiap.nac.exception.UniqueConstraintViolationException;
@@ -76,14 +77,10 @@ public class EstadoConsoleView {
 	 */
 	private static void saveState(Estado estado) throws CommitException, UniqueConstraintViolationException {
 		// Verifica se o estado ou a uf já estão cadastrados.
-		if (Optional.ofNullable(estadoDAO.findByDescricao(estado.getDescricao())).isPresent()
-				|| Optional.ofNullable(estadoDAO.findByUf(estado.getUf())).isPresent()) {
-			throw new UniqueConstraintViolationException("Estado ou UF já cadastrados, por favor verifique.");
-		} else {
-			estadoDAO.save(estado);
-			estadoDAO.commit();
+		validateUniqueFields(estado);
+		estadoDAO.save(estado);
+		estadoDAO.commit();
 
-		}
 	}
 
 	/**
@@ -122,6 +119,27 @@ public class EstadoConsoleView {
 	 */
 	public static List<Estado> findAllStates() throws ResourceNotFoundException {
 		return estadoDAO.findAll().orElseThrow(() -> new ResourceNotFoundException("Não existem estados cadastrados"));
+	}
+
+	/**
+	 * Método responsável por validar todos os campos unique, para evitar erro de Constraint Violation no banco de dados. Se
+	 * alguma chave estrangeira for violada uma exceção será lançada.
+	 *
+	 * @author Brazil Code - Gustavo Zotarelli
+	 * @param estado
+	 * @throws UniqueConstraintViolationException
+	 */
+	private static void validateUniqueFields(Estado estado) throws UniqueConstraintViolationException {
+		StringBuilder critics = new StringBuilder();
+		if (Optional.ofNullable(estadoDAO.findByDescricao(estado.getDescricao())).isPresent()) {
+			critics.append(", o nome do Estado já se encontra cadastrado!");
+		} else if (Optional.ofNullable(estadoDAO.findByUf(estado.getUf())).isPresent()) {
+			critics.append(", a UF digitada já se encontra cadastrada!");
+		}
+
+		if (critics.length() > 1) {
+			throw new UniqueConstraintViolationException("Críticas" + critics.toString());
+		}
 	}
 
 }
