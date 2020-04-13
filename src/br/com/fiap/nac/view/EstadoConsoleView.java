@@ -33,11 +33,6 @@ public class EstadoConsoleView {
 	private static EstadoDAO estadoDAO = new EstadoDAOImpl(EM);
 
 	/**
-	 * Atributo ID_ESTADO
-	 */
-	private static final Long ID_ESTADO = 1L;
-
-	/**
 	 * Método responsável por realizar o CRUD da entidade {@link Estado}.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli

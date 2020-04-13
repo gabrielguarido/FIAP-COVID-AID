@@ -32,7 +32,7 @@ public class UsuarioDAOImpl extends GenericDAOImpl<Usuario, Long> implements Usu
 		query.setParameter("username", username);
 
 		/**
-		 * Mesmo que o atributo 'usuario' seja um campo unique no banco de dados, nesse caso não é possível utilizar o
+		 * Mesmo que o atributo 'USUARIO' seja um campo unique no banco de dados, nesse caso não é possível utilizar o
 		 * getSingleResult, pois ele irá retornar uma exceção caso nenhum registro seja encontrado, e não é o que precisamos.
 		 * Portando para contornar o problema, utilizamos o getResultList e buscamos apenas o primeiro resultado.
 		 */
