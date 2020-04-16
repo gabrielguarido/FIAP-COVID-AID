@@ -8,7 +8,6 @@ import javax.persistence.EntityManager;
 import br.com.fiap.nac.dao.EstadoDAO;
 import br.com.fiap.nac.dao.impl.EstadoDAOImpl;
 import br.com.fiap.nac.entity.Estado;
-import br.com.fiap.nac.entity.Usuario;
 import br.com.fiap.nac.exception.CommitException;
 import br.com.fiap.nac.exception.ResourceNotFoundException;
 import br.com.fiap.nac.exception.UniqueConstraintViolationException;
