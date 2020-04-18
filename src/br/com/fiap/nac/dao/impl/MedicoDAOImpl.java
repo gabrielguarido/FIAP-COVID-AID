@@ -48,7 +48,7 @@ public class MedicoDAOImpl extends GenericDAOImpl<Medico, Long> implements Medic
 	@SuppressWarnings("unchecked")
 	@Override
 	public Optional<List<Medico>> findByArea(final String area) {
-		Query query = em.createQuery("SELECT m FROM Medico m WHERE LOWER(m.area) LIKE(:area)");
+		Query query = em.createQuery("SELECT m FROM Medico m WHERE LOWER(m.area) LIKE LOWER(:area)");
 		query.setParameter("area", area);
 		return Optional.ofNullable(query.getResultList());
 	}

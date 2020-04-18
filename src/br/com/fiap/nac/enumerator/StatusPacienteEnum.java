@@ -11,9 +11,9 @@ import br.com.fiap.nac.entity.Paciente;
  */
 public enum StatusPacienteEnum {
 
-	VERMELHO("INFECTADO"),
-	LARANJA("SUSPEITA"),
-	VERDE("NAO_INFECTADO");
+	VERMELHO("Infectado"),
+	LARANJA("Suspeita"),
+	VERDE("Não infectado");
 
 	/**
 	 * Atributo descricao
