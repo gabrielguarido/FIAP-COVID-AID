@@ -71,11 +71,11 @@ public class Endereco {
 	 */
 	public Endereco(String bairro, String cep, String complemento, String logradouro, Cidade cidade) {
 		super();
-		this.bairro = bairro;
-		this.cep = cep;
-		this.complemento = complemento;
-		this.logradouro = logradouro;
-		this.cidade = cidade;
+		setBairro(bairro);
+		setCep(cep);
+		setComplemento(complemento);
+		setLogradouro(logradouro);
+		setCidade(cidade);
 	}
 
 	/**

@@ -51,8 +51,8 @@ public class Cidade {
 	 */
 	public Cidade(String descricao, Estado estado) {
 		super();
-		this.descricao = descricao;
-		this.estado = estado;
+		setDescricao(descricao);
+		setEstado(estado);
 	}
 
 	/**

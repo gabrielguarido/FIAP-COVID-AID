@@ -14,7 +14,7 @@ import br.com.fiap.nac.entity.Usuario;
 public interface UsuarioDAO extends GenericDAO<Usuario, Long> {
 
 	/**
-	 * Método responsável por buscar um {@link Usuario} filtrando pelo nome de usuario informado.
+	 * Método responsável por buscar um {@link Usuario} filtrando pelo nome de USUARIO informado.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @param username
