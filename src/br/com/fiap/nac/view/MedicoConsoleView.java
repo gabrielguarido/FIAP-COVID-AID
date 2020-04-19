@@ -69,6 +69,8 @@ public class MedicoConsoleView {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			// Fechando conexões
+			enderecoService.closeConnection();
 			medicoService.closeConnection();
 		}
 	}
