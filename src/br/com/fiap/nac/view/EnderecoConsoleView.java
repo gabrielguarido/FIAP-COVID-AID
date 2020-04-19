@@ -17,7 +17,7 @@ import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
  * @since 10 de abr de 2020 16:25:41
  * @version 1.0
  */
-public class EnredecoConsoleView {
+public class EnderecoConsoleView {
 
 	/**
 	 * Método responsável por realizar o CRUD da entidade.
