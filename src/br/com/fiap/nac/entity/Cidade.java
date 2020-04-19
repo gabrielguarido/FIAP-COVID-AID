@@ -1,18 +1,17 @@
 package br.com.fiap.nac.entity;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * Classe responsável por ...
+ * Classe respons�vel por mapear a tabela CIDADES no banco de dados.
  *
  * @author Brazil Code - Andrew Pereira
  * @since Apr 10, 2020 3:33:10 PM
@@ -21,117 +20,75 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "CIDADES")
-@SequenceGenerator(name="cidade", sequenceName = "CIDADE_SEQ", allocationSize = 1)
-public class Cidade{
-	
+@SequenceGenerator(name = "cidade", sequenceName = "CIDADE_SEQ", allocationSize = 1)
+public class Cidade {
+
 	/**
 	 * Atributo id
 	 */
 	@Id
 	@GeneratedValue(generator = "cidade", strategy = GenerationType.SEQUENCE)
-	private int id;
+	private Long id;
+
 	/**
 	 * Atributo descricao
 	 */
+	@Column(length = 30, nullable = false)
 	private String descricao;
+
 	/**
 	 * Atributo estado
 	 */
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_estado", referencedColumnName = "id")
+	@JoinColumn(name = "ID_ESTADO", unique = false, nullable = false)
+	@OneToOne
 	private Estado estado;
-	
-	
-	
+
 	/**
 	 * Construtor da classe Cidade
 	 *
-	 * @param id
 	 * @param descricao
 	 * @param estado
 	 */
-	public Cidade( String descricao, Estado estado) {
+	public Cidade(String descricao, Estado estado) {
 		super();
-		this.descricao = descricao;
-		this.estado = estado;
+		setDescricao(descricao);
+		setEstado(estado);
 	}
-	
-	
-	
-	
+
 	/**
 	 * Construtor da classe Cidade
-	 *
 	 */
 	public Cidade() {
 		super();
 	}
 
-
-
-
-	/**
-	 * Método responsável por buscar id
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @return
-	 */
-	
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
-	
 
-
-	/**
-	 * Método responsável por inserir id
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @param id
-	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	
-	/**
-	 * Método responsável por buscar descricao
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @return
-	 */
+
 	public String getDescricao() {
 		return descricao;
 	}
-	
-	/**
-	 * Método responsável por inserir descricao
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @param descricao
-	 */
+
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
-	/**
-	 * Método responsável por buscar estado
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @return
-	 */
+
 	public Estado getEstado() {
 		return estado;
 	}
-	
-	/**
-	 * Método responsável por inserir estado
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @param estado
-	 */
+
 	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Cidade [id=" + id + ", descricao=" + descricao + ", estado=" + estado + "]";
+	}
 
 }

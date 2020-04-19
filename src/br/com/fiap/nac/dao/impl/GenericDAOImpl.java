@@ -1,9 +1,11 @@
 package br.com.fiap.nac.dao.impl;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import br.com.fiap.nac.dao.GenericDAO;
 import br.com.fiap.nac.exception.CommitException;
@@ -21,7 +23,7 @@ public class GenericDAOImpl<T, K> implements GenericDAO<T, K> {
 	/**
 	 * Atributo em
 	 */
-	private EntityManager em;
+	protected EntityManager em;
 
 	/**
 	 * Atributo clazz
@@ -33,10 +35,9 @@ public class GenericDAOImpl<T, K> implements GenericDAO<T, K> {
 	 *
 	 * @param em
 	 */
-	@SuppressWarnings("unchecked")
 	public GenericDAOImpl(EntityManager em) {
 		this.em = em;
-		this.clazz = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+		this.clazz = this.getTypeClass();
 	}
 
 	@Override
@@ -49,16 +50,21 @@ public class GenericDAOImpl<T, K> implements GenericDAO<T, K> {
 		em.merge(entity);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public Optional<T> findOne(K id) {
-		return (Optional<T>) em.find(clazz, id);
+		return Optional.ofNullable(em.find(clazz, id));
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
+	public Optional<List<T>> findAll() {
+		Query query = em.createQuery("SELECT t FROM " + getTypeClass().getName() + " t");
+		return Optional.ofNullable(query.getResultList());
+	}
+
+	@Override
 	public void delete(K id) throws ResourceNotFoundException {
-		Optional<T> entity = (Optional<T>) findOne(id).orElseThrow(() -> new ResourceNotFoundException());
+		T entity = findOne(id).orElseThrow(() -> new ResourceNotFoundException());
 		em.remove(entity);
 	}
 
@@ -72,6 +78,17 @@ public class GenericDAOImpl<T, K> implements GenericDAO<T, K> {
 			e.printStackTrace();
 			throw new CommitException();
 		}
+	}
+
+	/**
+	 * Método responsável por fazer o parse da Classe T recebida para o Objeto que utilizará a implementação.
+	 *
+	 * @author Brazil Code - Gabriel Guarido
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	private Class<T> getTypeClass() {
+		return (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 	}
 
 }

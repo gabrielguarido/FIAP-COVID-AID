@@ -3,6 +3,9 @@ package br.com.fiap.nac.entity;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,10 +14,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import com.sun.istack.NotNull;
+import br.com.fiap.nac.enumerator.AreaMedicinaEnum;
 
 /**
- * Classe responsável por mapear a entidade MEDICO.
+ * Classe responsável por mapear a tabela MEDICOS no banco de dados.
  *
  * @author Brazil Code - Gabriel Guarido
  * @since 9 de abr de 2020 21:08:33
@@ -35,37 +38,35 @@ public class Medico {
 	/**
 	 * Atributo usuario
 	 */
-	@NotNull
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "ID_USUARIO", referencedColumnName = "id")
+	@JoinColumn(name = "ID_USUARIO", unique = true, nullable = false)
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Usuario usuario;
 
 	/**
 	 * Atributo crm
 	 */
-	@NotNull
+	@Column(length = 30, nullable = false, unique = true)
 	private String crm;
 
 	/**
 	 * Atributo area
 	 */
-	@NotNull
-	@Column(length = 20)
-	private String area;
+	@Column(length = 20, nullable = false)
+	@Enumerated(EnumType.STRING)
+	private AreaMedicinaEnum area;
 
 	/**
 	 * Construtor da classe Medico
 	 *
-	 * @param id
 	 * @param usuario
 	 * @param crm
 	 * @param area
 	 */
-	public Medico(Usuario usuario, String crm, String area) {
+	public Medico(Usuario usuario, String crm, AreaMedicinaEnum area) {
 		super();
-		this.usuario = usuario;
-		this.crm = crm;
-		this.area = area;
+		setUsuario(usuario);
+		setCrm(crm);
+		setArea(area);
 	}
 
 	/**
@@ -99,12 +100,17 @@ public class Medico {
 		this.crm = crm;
 	}
 
-	public String getArea() {
+	public AreaMedicinaEnum getArea() {
 		return area;
 	}
 
-	public void setArea(String area) {
+	public void setArea(AreaMedicinaEnum area) {
 		this.area = area;
+	}
+
+	@Override
+	public String toString() {
+		return "Medico [id=" + id + ", usuario=" + usuario + ", crm=" + crm + ", area=" + area + "]";
 	}
 
 }

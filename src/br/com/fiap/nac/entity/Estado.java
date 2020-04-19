@@ -9,7 +9,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * Classe responsável por mapear a entidade ESTADO.
+ * Classe responsável por mapear a tabela ESTADOS no banco de dados.
  *
  * @author Brazil Code - Gustavo Zotarelli
  * @since 10 de abr de 2020 15:15:10
@@ -30,8 +30,14 @@ public class Estado {
 	/**
 	 * Atributo descricao
 	 */
-	@Column(length = 50)
+	@Column(length = 50, nullable = false, unique = true)
 	private String descricao;
+
+	/**
+	 * Atributo uf
+	 */
+	@Column(length = 2, nullable = false, unique = true)
+	private String uf;
 
 	/**
 	 * Construtor da classe Estado
@@ -44,10 +50,12 @@ public class Estado {
 	 * Construtor da classe Estado
 	 *
 	 * @param descricao
+	 * @param uf
 	 */
-	public Estado(String descricao) {
+	public Estado(String descricao, String uf) {
 		super();
 		setDescricao(descricao);
+		setUf(uf);
 	}
 
 	public Long getId() {
@@ -64,6 +72,19 @@ public class Estado {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+
+	public String getUf() {
+		return uf;
+	}
+
+	public void setUf(String uf) {
+		this.uf = uf.toUpperCase();
+	}
+
+	@Override
+	public String toString() {
+		return "Estado [id=" + id + ", descricao=" + descricao + "]";
 	}
 
 }

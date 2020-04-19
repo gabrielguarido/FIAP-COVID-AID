@@ -1,6 +1,6 @@
 package br.com.fiap.nac.entity;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * Classe responsável por ...
+ * Classe respons�vel por mapear a tabela ENDERECOS no banco de dados.
  *
  * @author Brazil Code - Andrew Pereira
  * @since Apr 10, 2020 3:26:33 PM
@@ -27,37 +27,42 @@ public class Endereco {
 	 */
 	@Id
 	@GeneratedValue(generator = "endereco", strategy = GenerationType.SEQUENCE)
-	private int id;
+	private Long id;
 
 	/**
 	 * Atributo bairro
 	 */
+	@Column(length = 30, nullable = false)
 	private String bairro;
+
 	/**
 	 * Atributo cep
 	 */
+	@Column(length = 10, nullable = false)
 	private String cep;
+
 	/**
 	 * Atributo complemento
 	 */
+	@Column(length = 150)
 	private String complemento;
+
 	/**
 	 * Atributo logradouro
 	 */
+	@Column(length = 100, nullable = false)
 	private String logradouro;
+
 	/**
 	 * Atributo cidade
 	 */
-	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "id_cidade", referencedColumnName = "id")
+	@JoinColumn(name = "ID_CIDADE", unique = false, nullable = false)
+	@OneToOne
 	private Cidade cidade;
 
-	
 	/**
 	 * Construtor da classe Endereco
 	 *
-	 * @param id
 	 * @param bairro
 	 * @param cep
 	 * @param complemento
@@ -66,141 +71,72 @@ public class Endereco {
 	 */
 	public Endereco(String bairro, String cep, String complemento, String logradouro, Cidade cidade) {
 		super();
-		this.bairro = bairro;
-		this.cep = cep;
-		this.complemento = complemento;
-		this.logradouro = logradouro;
-		this.cidade = cidade;
+		setBairro(bairro);
+		setCep(cep);
+		setComplemento(complemento);
+		setLogradouro(logradouro);
+		setCidade(cidade);
 	}
 
 	/**
 	 * Construtor da classe Endereco
-	 *
 	 */
 	public Endereco() {
 		super();
 	}
 
-	/**
-	 * Método responsável por pegar o id
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @return
-	 */
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	/**
-	 * Método responsável por Inserir id
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @param id
-	 */
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	/**
-	 * Método responsável por Pegar Bairro
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @return
-	 */
 	public String getBairro() {
 		return bairro;
 	}
 
-	/**
-	 * Método responsável por Inserir Bairro
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @param bairro
-	 */
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
 	}
 
-	/**
-	 * Método responsável por buscar cep
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @return
-	 */
 	public String getCep() {
 		return cep;
 	}
 
-	/**
-	 * Método responsável por inserir cep
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @param cep
-	 */
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
 
-	/**
-	 * Método responsável por buscar complemento
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @return
-	 */
 	public String getComplemento() {
 		return complemento;
 	}
 
-	/**
-	 * Método responsável por inserir complemento
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @param complemento
-	 */
 	public void setComplemento(String complemento) {
 		this.complemento = complemento;
 	}
 
-	/**
-	 * Método responsável por buscar logradouro
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @return
-	 */
 	public String getLogradouro() {
 		return logradouro;
 	}
 
-	/**
-	 * Método responsável por inserir Logradouro
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @param logradouro
-	 */
 	public void setLogradouro(String logradouro) {
 		this.logradouro = logradouro;
 	}
 
-	/**
-	 * Método responsável por buscar cidade
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @return
-	 */
 	public Cidade getCidade() {
 		return cidade;
 	}
 
-	/**
-	 * Método responsável por inserir cidade
-	 *
-	 * @author Brazil Code - Andrew Pereira
-	 * @param cidade
-	 */
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
 
-
+	@Override
+	public String toString() {
+		return "Endereco [id=" + id + ", bairro=" + bairro + ", cep=" + cep + ", complemento=" + complemento + ", logradouro="
+				+ logradouro + ", cidade=" + cidade + "]";
+	}
 
 }
