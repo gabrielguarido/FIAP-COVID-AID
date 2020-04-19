@@ -3,6 +3,7 @@ package br.com.fiap.nac.view;
 import br.com.fiap.nac.entity.Cidade;
 import br.com.fiap.nac.entity.Estado;
 import br.com.fiap.nac.service.CidadeService;
+import br.com.fiap.nac.service.EstadoService;
 
 /**
  * Classe main.
@@ -17,11 +18,16 @@ public class CidadeConsoleView {
 	 * Atributo usuarioService
 	 */
 	private static CidadeService cidadeService = new CidadeService();
+	
+	/**
+	 * Atributo usuarioService
+	 */
+	private static EstadoService estadoService = new EstadoService();
 
 	/**
 	 * Atributo ID_TESTE
 	 */
-	private static final Long ID_TESTE = 1L;
+	private static final Long ID_TESTE = 4L;
 
 	/**
 	 * Método responsável por ...
@@ -35,7 +41,7 @@ public class CidadeConsoleView {
 			Estado estado = estadoService.findOne(ID_TESTE);
 
 			// Criando e cadastrando nova cidade
-			Cidade cidade = new Cidade("Cidade da putaria", estado);
+			Cidade cidade = new Cidade("Teste Cidade", estado);
 			cidadeService.save(cidade);
 
 			// Buscando cidade criada
