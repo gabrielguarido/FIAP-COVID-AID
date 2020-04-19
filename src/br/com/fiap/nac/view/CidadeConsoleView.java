@@ -1,50 +1,67 @@
 package br.com.fiap.nac.view;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
-import br.com.fiap.nac.dao.CidadeDAO;
-import br.com.fiap.nac.dao.impl.CidadeDAOImpl;
-import br.com.fiap.nac.dao.impl.EstadoDAOImpl;
 import br.com.fiap.nac.entity.Cidade;
 import br.com.fiap.nac.entity.Estado;
-import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
+import br.com.fiap.nac.service.CidadeService;
 
 /**
  * Classe main.
  *
- * @author Brazil Code - Gabriel Guarido
+ * @author Brazil Code -Andrew Pereira
  * @since 10 de abr de 2020 16:24:49
  * @version 1.0
  */
 public class CidadeConsoleView {
 
 	/**
-	 * Método responsável por realizar o CRUD da entidade.
+	 * Atributo usuarioService
+	 */
+	private static CidadeService cidadeService = new CidadeService();
+
+	/**
+	 * Atributo ID_TESTE
+	 */
+	private static final Long ID_TESTE = 1L;
+
+	/**
+	 * MÃ©todo responsÃ¡vel por ...
 	 *
-	 * @author Brazil Code - Andrew Pereira
+	 * @author Brazil Code - Andrew Pereira OBS: Todos os mï¿½todos podem ser executados de uma sï¿½ vez =D
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// Initiate factory
-		EntityManagerFactory factory = EntityManagerFactorySingleton.getInstance();
-		EntityManager em = factory.createEntityManager();
-
-		CidadeDAO dao = new CidadeDAOImpl(em);
-		Estado estado = new EstadoDAOImpl(em).findOne(1l).get();
-		Cidade cidade = new Cidade("Sao paulo", estado);
-
-		// Persist entity
 		try {
-			dao.save(cidade);
-			dao.commit();
+			// Buscando estado existente
+			Estado estado = estadoService.findOne(ID_TESTE);
+
+			// Criando e cadastrando nova cidade
+			Cidade cidade = new Cidade("Cidade da putaria", estado);
+			cidadeService.save(cidade);
+
+			// Buscando cidade criada
+			Cidade cidadeBD = cidadeService.findOne(cidade.getId());
+			System.out.println(cidadeBD.toString());
+
+			// Atualizando a cidade criada
+			cidadeBD.setDescricao("CIDADE DOS PUTEIROS");
+			cidadeService.update(cidadeBD);
+			System.out.println("Cidade atualizada: " + cidadeBD.getDescricao());
+
+			// Removendo Cidade criado
+			cidadeService.delete(cidadeBD.getId());
+
+			// Buscando todos os Usuarios existentes
+			cidadeService.findAll().forEach(cd -> {
+				System.out.println(cd.toString());
+			});
+
 		} catch (Exception e) {
 			e.printStackTrace();
+
+		} finally {
+			cidadeService.closeConnection();
 		}
 
-		// Closing factory n entity manager
-		em.close();
-		factory.close();
 	}
 
 }

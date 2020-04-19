@@ -1,18 +1,9 @@
 package br.com.fiap.nac.view;
 
-import java.util.Calendar;
-
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-
-import br.com.fiap.nac.dao.EnderecoDAO;
-import br.com.fiap.nac.dao.impl.CidadeDAOImpl;
-import br.com.fiap.nac.dao.impl.EnderecoDAOImpl;
 import br.com.fiap.nac.entity.Cidade;
 import br.com.fiap.nac.entity.Endereco;
-import br.com.fiap.nac.entity.Usuario;
+import br.com.fiap.nac.service.CidadeService;
 import br.com.fiap.nac.service.EnderecoService;
-import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
 
 /**
  * Classe main.
@@ -24,37 +15,40 @@ import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
 public class EnderecoConsoleView {
 
 	/**
+	 * Atributo usuarioService
+	 */
+	private static EnderecoService enderecoService = new EnderecoService();
+
+	/**
+	 * Atributo cidadeService
+	 */
+	private static CidadeService cidadeService = new CidadeService();
+
+	/**
+	 * Atributo ID_TESTE
+	 */
+	private static final Long ID_TESTE = 1L;
+
+	/**
 	 * M�todo respons�vel por realizar o CRUD da entidade.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// Initiate factory
-		EntityManagerFactory factory = EntityManagerFactorySingleton.getInstance();
-		EntityManager em = factory.createEntityManager();
-
-		//Buscando Cidade existente
-		Cidade cidade = new CidadeDAOImpl(em).findOne(1l).get();
-		EnderecoDAO dao = new EnderecoDAOImpl(em);
-		
-		// Criando e cadastrando novo ednereço
-		Endereco endereco = new Endereco("Capao", "05798100", "Casa2", "Rua gersom marques da silva", cidade);
-
-		// Persist entity
 		try {
-			dao.save(endereco);
-			dao.commit();
-			
-			
-			//instanciando service
-			EnderecoService enderecoService = new EnderecoService();
 
-			
+			// Buscando cidade existente
+			Cidade cidade = cidadeService.findOne(ID_TESTE);
+
+			// Criando e cadastrando novo ednereço
+			Endereco endereco = new Endereco("Capao", "05798100", "Casa2", "Rua gersom marques da silva", cidade);
+			enderecoService.save(endereco);
+
 			// Buscando endereco criado
 			Endereco enderecoBD = enderecoService.findOne(endereco.getId());
 			System.out.println(enderecoBD.toString());
-			
+
 			// Atualizando a endereco do Usuario criado
 			enderecoBD.setBairro("bairro");
 			enderecoBD.setCep("00000-000");
@@ -63,26 +57,24 @@ public class EnderecoConsoleView {
 
 			enderecoService.update(enderecoBD);
 			System.out.println(enderecoBD.toString());
-			
+
 			// Removendo Endereços criado
 			enderecoService.delete(enderecoBD.getId());
-			
 
 			// Buscando todos os Endereços existentes
 			enderecoService.findAll().forEach(end -> {
 				System.out.println(end.toString());
 			});
-			
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
+
+		} finally {
+			enderecoService.closeConnection();
 		}
-		
+
 		// Closing factory n entity manager
-		em.close();
-		factory.close();
+
 	}
 
 }
-
-
