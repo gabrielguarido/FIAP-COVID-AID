@@ -2,7 +2,7 @@ package br.com.fiap.nac.service;
 
 import javax.persistence.EntityManager;
 
-import br.com.fiap.nac.dao.EnderecoDao;
+import br.com.fiap.nac.dao.EnderecoDAO;
 import br.com.fiap.nac.dao.impl.EnderecoDAOImpl;
 import br.com.fiap.nac.entity.Endereco;
 import br.com.fiap.nac.exception.ResourceNotFoundException;
@@ -25,7 +25,7 @@ public class EnderecoService {
 	/**
 	 * Atributo enderecoDAO
 	 */
-	private EnderecoDao enderecoDAO = new EnderecoDAOImpl(EM);
+	private EnderecoDAO enderecoDAO = new EnderecoDAOImpl(EM);
 
 	/**
 	 * Método responsável por buscar um {@link Endereco} no banco de dados de acordo com o ID recebido por parâmetro. Se nenhum
