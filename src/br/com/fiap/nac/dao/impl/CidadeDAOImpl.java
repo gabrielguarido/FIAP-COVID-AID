@@ -2,7 +2,7 @@ package br.com.fiap.nac.dao.impl;
 
 import javax.persistence.EntityManager;
 
-import br.com.fiap.nac.dao.CidadeDao;
+import br.com.fiap.nac.dao.CidadeDAO;
 import br.com.fiap.nac.entity.Cidade;
 
 /**
@@ -12,7 +12,7 @@ import br.com.fiap.nac.entity.Cidade;
  * @since Apr 10, 2020 4:12:30 PM
  * @version 1.0
  */
-public class CidadeDAOImpl extends GenericDAOImpl<Cidade, Long> implements CidadeDao {
+public class CidadeDAOImpl extends GenericDAOImpl<Cidade, Long> implements CidadeDAO {
 
 	/**
 	 * Construtor da classe CidadeDAOImpl
