@@ -9,6 +9,6 @@ import br.com.fiap.nac.entity.Endereco;
  * @since Apr 10, 2020 4:15:29 PM
  * @version 1.0
  */
-public interface EnderecoDao extends GenericDAO<Endereco, Long> {
+public interface EnderecoDAO extends GenericDAO<Endereco, Long> {
 
 }

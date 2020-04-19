@@ -3,7 +3,7 @@ package br.com.fiap.nac.view;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import br.com.fiap.nac.dao.CidadeDao;
+import br.com.fiap.nac.dao.CidadeDAO;
 import br.com.fiap.nac.dao.impl.CidadeDAOImpl;
 import br.com.fiap.nac.dao.impl.EstadoDAOImpl;
 import br.com.fiap.nac.entity.Cidade;
@@ -30,7 +30,7 @@ public class CidadeConsoleView {
 		EntityManagerFactory factory = EntityManagerFactorySingleton.getInstance();
 		EntityManager em = factory.createEntityManager();
 
-		CidadeDao dao = new CidadeDAOImpl(em);
+		CidadeDAO dao = new CidadeDAOImpl(em);
 		Estado estado = new EstadoDAOImpl(em).findOne(1l).get();
 		Cidade cidade = new Cidade("Sao paulo", estado);
 
