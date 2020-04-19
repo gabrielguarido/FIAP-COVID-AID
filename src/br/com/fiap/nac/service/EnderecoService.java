@@ -39,4 +39,13 @@ public class EnderecoService {
 		return this.enderecoDAO.findOne(id).orElseThrow(() -> new ResourceNotFoundException("Endereco não encontrado"));
 	}
 
+	/**
+	 * Método responsável por fechar a instancia do EntityManager.
+	 *
+	 * @author Brazil Code - Gabriel Guarido
+	 */
+	public void closeConnection() {
+		EnderecoService.EM.close();
+	}
+
 }
