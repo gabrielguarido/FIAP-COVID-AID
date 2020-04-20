@@ -4,10 +4,10 @@ import br.com.fiap.nac.entity.Estado;
 import br.com.fiap.nac.service.EstadoService;
 
 /**
- * Classe main.
+ * Classe main
  *
- * @author Brazil Code - Gustavo Zotarelli
- * @since 10 de abr de 2020 15:51:03
+ * @author Brazil Code - Andrew Pererira
+ * @since Apr 19, 2020 7:49:42 PM
  * @version 1.0
  */
 public class EstadoConsoleView {
@@ -19,6 +19,7 @@ public class EstadoConsoleView {
 
 	/**
 	 * Método responsável por realizar o CRUD da entidade {@link Estado}.
+	 * OBS: Todos os métodos podem ser executados de uma só vez =D
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 * @param args
@@ -34,12 +35,12 @@ public class EstadoConsoleView {
 			Estado estadoBD = estadoService.findOne(estado.getId());
 			System.out.println(estadoBD.toString());
 
-			// Atualizando Estado cadastro
+			// Atualizando Estado criado
 			estadoBD.setDescricao("Brasília");
 			estadoService.update(estadoBD);
 			System.out.println("Estado atualizado: " + estadoBD.getDescricao());
 
-			// Removendo Estado
+			// Removendo Estado criado
 			estadoService.delete(estadoBD.getId());
 
 			// Buscando todos os Estados existentes
@@ -49,8 +50,9 @@ public class EstadoConsoleView {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
+			// Fechando conexões
 			estadoService.closeConnection();
 		}
-	}
 
+}
 }

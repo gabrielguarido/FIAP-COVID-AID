@@ -32,8 +32,8 @@ public class UsuarioConsoleView {
 	private static final Long ID_TESTE = 1L;
 
 	/**
-	 * Método responsável por chamar cada método de CRUD para a entidade {@link Usuario}. OBS: Todos os métodos podem ser
-	 * executados de uma só vez =D
+	 * Método responsável por chamar cada método de CRUD para a entidade {@link Usuario}. 
+	 * OBS: Todos os métodos podem ser executados de uma só vez =D
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @param args

@@ -65,6 +65,14 @@ public class PacienteConsoleView {
 			pacienteService.findAll().forEach(pac -> {
 				System.out.println(pac.toString());
 			});
+
+			// Buscando Pacientes por idade - Exemplo utilizado: Idosos
+			pacienteService.findByAgeAverage(60, 90).forEach(idoso -> {
+				String nome = idoso.getUsuario().getNome();
+				String status = idoso.getStatus().getDescricao();
+				int idade = idoso.getIdade();
+				System.out.println("IDOSO: " + nome + "; Status: " + status + "; Idade: " + idade);
+			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
