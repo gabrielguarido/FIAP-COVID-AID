@@ -4,10 +4,10 @@ import br.com.fiap.nac.entity.Estado;
 import br.com.fiap.nac.service.EstadoService;
 
 /**
- * Classe main.
+ * Classe main
  *
- * @author Brazil Code - Gustavo Zotarelli
- * @since 10 de abr de 2020 15:51:03
+ * @author Brazil Code - Andrew Pererira
+ * @since Apr 19, 2020 7:49:42 PM
  * @version 1.0
  */
 public class EstadoConsoleView {
@@ -18,15 +18,16 @@ public class EstadoConsoleView {
 	private static EstadoService estadoService = new EstadoService();
 
 	/**
-	 * Método responsável por realizar o CRUD da entidade {@link Estado}.
+	 * Mï¿½todo responsï¿½vel por realizar o CRUD da entidade {@link Estado}.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
 		try {
 			// Criando e cadastrando novo Estado
-			Estado estado = new Estado("BrRaszília", "DF");
+			Estado estado = new Estado("BrRaszï¿½lia", "DF");
 			estadoService.save(estado);
 			System.out.println("Estado cadastrado com sucesso!");
 
@@ -35,7 +36,7 @@ public class EstadoConsoleView {
 			System.out.println(estadoBD.toString());
 
 			// Atualizando Estado cadastro
-			estadoBD.setDescricao("Brasília");
+			estadoBD.setDescricao("Brasï¿½lia");
 			estadoService.update(estadoBD);
 			System.out.println("Estado atualizado: " + estadoBD.getDescricao());
 
@@ -46,11 +47,13 @@ public class EstadoConsoleView {
 			estadoService.findAll().forEach(es -> {
 				System.out.println(es.toString());
 			});
+			
+			
 		} catch (Exception e) {
-			e.printStackTrace();
+			// TODO: handle exception
 		} finally {
 			estadoService.closeConnection();
 		}
-	}
 
+}
 }
