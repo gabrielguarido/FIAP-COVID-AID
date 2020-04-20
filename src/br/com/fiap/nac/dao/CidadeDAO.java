@@ -1,5 +1,7 @@
 package br.com.fiap.nac.dao;
 
+import java.util.Optional;
+
 import br.com.fiap.nac.entity.Cidade;
 
 /**
@@ -10,5 +12,14 @@ import br.com.fiap.nac.entity.Cidade;
  * @version 1.0
  */
 public interface CidadeDAO extends GenericDAO<Cidade, Long> {
+
+	/**
+	 * Método responsável por buscar um {@link Cidade} filtrando pela DESCRICAO informada.
+	 *
+	 * @author Brazil Code - Andrew Pereira
+	 * @param descricao
+	 * @return
+	 */
+	Optional<Cidade> findByDescricao(final String descricao);
 
 }

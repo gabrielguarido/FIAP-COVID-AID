@@ -63,13 +63,17 @@ public class PacienteService {
 
 	/**
 	 * Método responsável por atualizar as informações de um {@link Paciente} no banco de dados de acordo com os dados recebidos
-	 * no objeto que está sendo passado por parâmetro.
+	 * no objeto que está sendo passado por parâmetro, verificando antes se o CPF informado está disponível para uso. Se o CPF já
+	 * tiver sido cadastrado para outro Paciente, uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @param paciente
 	 * @throws CommitException
+	 * @throws UniqueConstraintViolationException
 	 */
-	public void update(final Paciente paciente) throws CommitException {
+	public void update(final Paciente paciente) throws CommitException, UniqueConstraintViolationException {
+		// Validando os campos unique antes de tentar salvar no banco de dados
+		this.validateUniqueFields(paciente);
 		this.pacienteDAO.update(paciente);
 		this.pacienteDAO.commit();
 	}
@@ -98,6 +102,18 @@ public class PacienteService {
 	 */
 	public List<Paciente> findAll() throws ResourceNotFoundException {
 		return this.pacienteDAO.findAll().orElseThrow(() -> new ResourceNotFoundException("Nenhum paciente cadastrado"));
+	}
+
+	/**
+	 * Método responsável por buscar todos os pacientes cadastrados, filtrando pelas idades informadas por parâmetro.
+	 *
+	 * @author Brazil Code - Gabriel Guarido
+	 * @param idadeInicial
+	 * @param idadeFial
+	 * @return
+	 */
+	public List<Paciente> findByAgeAverage(final int idadeInicial, final int idadeFial) {
+		return this.pacienteDAO.findByAgeAverage(idadeInicial, idadeFial).get();
 	}
 
 	/**

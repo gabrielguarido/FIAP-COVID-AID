@@ -64,13 +64,17 @@ public class MedicoService {
 
 	/**
 	 * Método responsável por atualizar as informações de um {@link Medico} no banco de dados de acordo com os dados recebidos no
-	 * objeto que está sendo passado por parâmetro.
+	 * objeto que está sendo passado por parâmetro, verificando antes se o CRM informado está disponível para uso. Se o CRM já
+	 * tiver sido cadastrado para outro Medico, uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @param medico
 	 * @throws CommitException
+	 * @throws UniqueConstraintViolationException
 	 */
-	public void update(final Medico medico) throws CommitException {
+	public void update(final Medico medico) throws CommitException, UniqueConstraintViolationException {
+		// Validando os campos unique antes de tentar salvar no banco de dados
+		this.validateUniqueFields(medico);
 		this.medicoDAO.update(medico);
 		this.medicoDAO.commit();
 	}
@@ -110,7 +114,8 @@ public class MedicoService {
 	 * @throws ResourceNotFoundException
 	 */
 	public List<Medico> findByArea(final AreaMedicinaEnum area) throws ResourceNotFoundException {
-		return this.medicoDAO.findByArea(area.toString()).orElseThrow(() -> new ResourceNotFoundException("Nenhum médico especializado na area"));
+		return this.medicoDAO.findByArea(area.toString())
+				.orElseThrow(() -> new ResourceNotFoundException("Nenhum médico especializado na area"));
 	}
 
 	/**

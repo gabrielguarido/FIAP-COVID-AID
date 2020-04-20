@@ -14,7 +14,7 @@ import br.com.fiap.nac.exception.UniqueConstraintViolationException;
 import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
 
 /**
- * Classe responsável por aplicar as regras de negócio para {@link Estado}.
+ * Classe responsável por aplicar as regras de negócios para {@link Estado}.
  *
  * @author Brazil Code - Gustavo Zotarelli
  * @since 19 de abr de 2020 22:08:45
@@ -42,7 +42,7 @@ public class EstadoService {
 	 * @throws UniqueConstraintViolationException
 	 */
 	public void save(final Estado estado) throws CommitException, UniqueConstraintViolationException {
-		// Verifica se o Estado ou a UF já estão cadastrados.
+		// Validando os campos unique antes de tentar salvar no banco de dados
 		this.validateUniqueFields(estado);
 		this.estadoDAO.save(estado);
 		this.estadoDAO.commit();
@@ -61,14 +61,17 @@ public class EstadoService {
 	}
 
 	/**
-	 * Método responsável por atualizar as informações de um {@link Estado} no banco de dados de acordo com os dados recebidos no
+	 * Método responsável por atualizar as informções de um {@link Estado} no banco de dados de acordo com os dados recebidos no
 	 * objeto que está sendo passado por parâmetro.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 * @param estado
 	 * @throws CommitException
+	 * @throws UniqueConstraintViolationException
 	 */
-	public void update(Estado estado) throws CommitException {
+	public void update(Estado estado) throws CommitException, UniqueConstraintViolationException {
+		// Validando os campos unique antes de tentar salvar no banco de dados
+		this.validateUniqueFields(estado);
 		this.estadoDAO.update(estado);
 		this.estadoDAO.commit();
 	}
@@ -120,7 +123,7 @@ public class EstadoService {
 	}
 
 	/**
-	 * Método responsável por fechar a instância do EntityManager.
+	 * Método responsável por fechar a instï¿½ncia do EntityManager.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 */

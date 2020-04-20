@@ -33,7 +33,7 @@ public class Cidade {
 	/**
 	 * Atributo descricao
 	 */
-	@Column(length = 30, nullable = false)
+	@Column(length = 30, nullable = false, unique = true)
 	private String descricao;
 
 	/**
