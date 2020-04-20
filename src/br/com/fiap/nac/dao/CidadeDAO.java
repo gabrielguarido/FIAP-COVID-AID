@@ -5,7 +5,7 @@ import java.util.Optional;
 import br.com.fiap.nac.entity.Cidade;
 
 /**
- * Classe responsï¿½vel por implementar um repositï¿½rio para {@link Cidade}.
+ * Classe responsável por implementar um repositório para {@link Cidade}.
  *
  * @author Brazil Code - Andrew Pereira
  * @since 10 de abr de 2020 16:21:08
@@ -13,13 +13,13 @@ import br.com.fiap.nac.entity.Cidade;
  */
 public interface CidadeDAO extends GenericDAO<Cidade, Long> {
 
-	
 	/**
-	 * Mï¿½todo responsï¿½vel por buscar um {@link Cidade} filtrando pela DESCRICAO informada.
+	 * Método responsável por buscar um {@link Cidade} filtrando pela DESCRICAO informada.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 * @param descricao
 	 * @return
 	 */
 	Optional<Cidade> findByDescricao(final String descricao);
+
 }

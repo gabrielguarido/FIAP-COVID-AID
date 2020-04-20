@@ -9,7 +9,7 @@ import br.com.fiap.nac.dao.CidadeDAO;
 import br.com.fiap.nac.entity.Cidade;
 
 /**
- * Classe responsï¿½vel por implementar os mï¿½todos do repositï¿½rio {@link CidadeDAO}.
+ * Classe responsável por implementar os métodos do repositório {@link CidadeDAO}.
  *
  * @author Brazil Code - Andrew Pereira
  * @since Apr 10, 2020 4:12:30 PM
@@ -26,8 +26,8 @@ public class CidadeDAOImpl extends GenericDAOImpl<Cidade, Long> implements Cidad
 		super(em);
 	}
 
-	public Optional<Cidade> findByDescricao(String descricao) {
-		TypedQuery<Cidade> query = this.em.createQuery("SELECT e FROM Cidade e WHERE LOWER(e.descricao) LIKE LOWER(:descricao)", Cidade.class);
+	public Optional<Cidade> findByDescricao(final String descricao) {
+		TypedQuery<Cidade> query = this.em.createQuery("SELECT c FROM Cidade c WHERE LOWER(c.descricao) LIKE LOWER(:descricao)", Cidade.class);
 		query.setParameter("descricao", descricao);
 
 		if (query.getResultList().isEmpty()) {
