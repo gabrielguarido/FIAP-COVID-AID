@@ -1,11 +1,6 @@
 package br.com.fiap.nac.view;
 
-import java.util.List;
 import br.com.fiap.nac.entity.Estado;
-import br.com.fiap.nac.exception.CommitException;
-import br.com.fiap.nac.exception.ResourceNotFoundException;
-import br.com.fiap.nac.exception.UniqueConstraintViolationException;
-import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
 import br.com.fiap.nac.service.EstadoService;
 
 /**
@@ -23,7 +18,7 @@ public class EstadoConsoleView {
 	private static EstadoService estadoService = new EstadoService();
 
 	/**
-	 * MÃ©todo responsÃ¡vel por realizar o CRUD da entidade {@link Estado}.
+	 * Método responsável por realizar o CRUD da entidade {@link Estado}.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 * @param args
@@ -31,18 +26,21 @@ public class EstadoConsoleView {
 	public static void main(String[] args) {
 		try {
 			// Criando e cadastrando novo Estado
-			Estado estado = new Estado("BrRaszÃ­lia", "DF");
+			Estado estado = new Estado("BrRaszília", "DF");
 			estadoService.save(estado);
 			System.out.println("Estado cadastrado com sucesso!");
 
+			// Buscando Estado criado
+			Estado estadoBD = estadoService.findOne(estado.getId());
+			System.out.println(estadoBD.toString());
+
 			// Atualizando Estado cadastro
-			estado.setDescricao("BrasÃ­lia");
-			estadoService.update(estado);
-			System.out.println("Estado atualizado: " + estado.getDescricao());
+			estadoBD.setDescricao("Brasília");
+			estadoService.update(estadoBD);
+			System.out.println("Estado atualizado: " + estadoBD.getDescricao());
 
 			// Removendo Estado
-			estadoService.delete(estado.getId());
-			System.out.println("Estado excluÃ­do com sucesso!");
+			estadoService.delete(estadoBD.getId());
 
 			// Buscando todos os Estados existentes
 			estadoService.findAll().forEach(es -> {

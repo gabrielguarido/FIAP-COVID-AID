@@ -42,11 +42,22 @@ public class EstadoService {
 	 * @throws UniqueConstraintViolationException
 	 */
 	public void save(final Estado estado) throws CommitException, UniqueConstraintViolationException {
-		// Verifica se o estado ou a uf já estão cadastrados.
+		// Verifica se o Estado ou a UF já estão cadastrados.
 		this.validateUniqueFields(estado);
 		this.estadoDAO.save(estado);
 		this.estadoDAO.commit();
+	}
 
+	/**
+	 * Método responsável por busacar um {@link Estado} no banco de dados pelo ID informado por parâmetro.
+	 *
+	 * @author Brazil Code - Gabriel Guarido
+	 * @param id
+	 * @return
+	 * @throws ResourceNotFoundException
+	 */
+	public Estado findOne(final Long id) throws ResourceNotFoundException {
+		return this.estadoDAO.findOne(id).orElseThrow(() -> new ResourceNotFoundException("Estado não encontrado"));
 	}
 
 	/**
@@ -116,4 +127,5 @@ public class EstadoService {
 	public void closeConnection() {
 		EstadoService.EM.close();
 	}
+
 }
