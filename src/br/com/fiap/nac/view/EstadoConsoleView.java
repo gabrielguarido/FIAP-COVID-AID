@@ -18,16 +18,16 @@ public class EstadoConsoleView {
 	private static EstadoService estadoService = new EstadoService();
 
 	/**
-	 * Mï¿½todo responsï¿½vel por realizar o CRUD da entidade {@link Estado}.
+	 * Método responsável por realizar o CRUD da entidade {@link Estado}.
+	 * OBS: Todos os métodos podem ser executados de uma só vez =D
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 * @param args
 	 */
 	public static void main(String[] args) {
-
 		try {
 			// Criando e cadastrando novo Estado
-			Estado estado = new Estado("BrRaszï¿½lia", "DF");
+			Estado estado = new Estado("BrRaszília", "DF");
 			estadoService.save(estado);
 			System.out.println("Estado cadastrado com sucesso!");
 
@@ -35,23 +35,22 @@ public class EstadoConsoleView {
 			Estado estadoBD = estadoService.findOne(estado.getId());
 			System.out.println(estadoBD.toString());
 
-			// Atualizando Estado cadastro
-			estadoBD.setDescricao("Brasï¿½lia");
+			// Atualizando Estado criado
+			estadoBD.setDescricao("Brasília");
 			estadoService.update(estadoBD);
 			System.out.println("Estado atualizado: " + estadoBD.getDescricao());
 
-			// Removendo Estado
+			// Removendo Estado criado
 			estadoService.delete(estadoBD.getId());
 
 			// Buscando todos os Estados existentes
 			estadoService.findAll().forEach(es -> {
 				System.out.println(es.toString());
 			});
-			
-			
 		} catch (Exception e) {
-			// TODO: handle exception
+			e.printStackTrace();
 		} finally {
+			// Fechando conexões
 			estadoService.closeConnection();
 		}
 

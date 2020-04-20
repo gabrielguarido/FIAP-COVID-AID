@@ -15,7 +15,7 @@ import br.com.fiap.nac.service.EnderecoService;
 public class EnderecoConsoleView {
 
 	/**
-	 * Atributo usuarioService
+	 * Atributo enderecoService
 	 */
 	private static EnderecoService enderecoService = new EnderecoService();
 
@@ -30,51 +30,47 @@ public class EnderecoConsoleView {
 	private static final Long ID_TESTE = 1L;
 
 	/**
-	 * Mï¿½todo responsï¿½vel por realizar o CRUD da entidade.
+	 * Método responsável por realizar o CRUD da entidade.
+	 * OBS: Todos os métodos podem ser executados de uma só vez =D
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 * @param args
 	 */
 	public static void main(String[] args) {
 		try {
-
 			// Buscando cidade existente
 			Cidade cidade = cidadeService.findOne(ID_TESTE);
 
-			// Criando e cadastrando novo ednereÃ§o
+			// Criando e cadastrando novo Endereco
 			Endereco endereco = new Endereco("Capao", "05798100", "Casa2", "Rua gersom marques da silva", cidade);
 			enderecoService.save(endereco);
 
-			// Buscando endereco criado
+			// Buscando Endereco criado
 			Endereco enderecoBD = enderecoService.findOne(endereco.getId());
 			System.out.println(enderecoBD.toString());
 
-			// Atualizando a endereco do Usuario criado
+			// Atualizando o Endereco criado
 			enderecoBD.setBairro("bairro");
 			enderecoBD.setCep("00000-000");
 			enderecoBD.setComplemento("complemento");
 			enderecoBD.setLogradouro("Logradouro");
-
 			enderecoService.update(enderecoBD);
-			System.out.println(enderecoBD.toString());
+			System.out.println("Endereco atualizado: " + enderecoBD.toString());
 
-			// Removendo EndereÃ§os criado
+			// Removendo Endereco criado
 			enderecoService.delete(enderecoBD.getId());
 
-			// Buscando todos os EndereÃ§os existentes
+			// Buscando todos os Enderecos existentes
 			enderecoService.findAll().forEach(end -> {
 				System.out.println(end.toString());
 			});
-
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		} finally {
+			// Fechando conexões
+			cidadeService.closeConnection();
 			enderecoService.closeConnection();
 		}
-
-		// Closing factory n entity manager
-
 	}
 
 }

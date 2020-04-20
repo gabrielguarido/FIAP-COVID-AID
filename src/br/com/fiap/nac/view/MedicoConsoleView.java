@@ -66,6 +66,11 @@ public class MedicoConsoleView {
 			medicoService.findAll().forEach(med -> {
 				System.out.println(med.toString());
 			});
+			
+			// Buscando Medicos por area de atuação - Exemplo utilizado: Emergência
+			medicoService.findByArea(AreaMedicinaEnum.EMERGENCIA).forEach(med -> {
+				System.out.println("Medico de emergencia: " + med.toString());
+			});
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
