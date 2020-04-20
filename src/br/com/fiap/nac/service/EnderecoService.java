@@ -1,21 +1,18 @@
 package br.com.fiap.nac.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
 import br.com.fiap.nac.dao.EnderecoDAO;
 import br.com.fiap.nac.dao.impl.EnderecoDAOImpl;
 import br.com.fiap.nac.entity.Endereco;
-import br.com.fiap.nac.entity.Estado;
 import br.com.fiap.nac.exception.CommitException;
 import br.com.fiap.nac.exception.ResourceNotFoundException;
-import br.com.fiap.nac.exception.UniqueConstraintViolationException;
 import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
 
 /**
- * Classe responsï¿½vel por aplicar as regras de negï¿½cio para {@link Endereco}.
+ * Classe responsável por aplicar as regras de negócio para {@link Endereco}.
  *
  * @author Brazil Code - Andrew Pereira
  * @since 18 de abr de 2020 17:22:42
@@ -34,20 +31,20 @@ public class EnderecoService {
 	private EnderecoDAO enderecoDAO = new EnderecoDAOImpl(EM);
 
 	/**
-	 * Mï¿½todo responsï¿½vel por buscar um {@link Endereco} no banco de dados de acordo com o ID recebido por parï¿½metro. Se nenhum
-	 * registro for encontrado uma exceï¿½ï¿½o serï¿½ lanï¿½ada.
+	 * Método responsável por buscar um {@link Endereco} no banco de dados de acordo com o ID recebido por parâmetro. Se nenhum
+	 * registro for encontrado uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
 	public Endereco findOne(final Long id) throws ResourceNotFoundException {
-		return this.enderecoDAO.findOne(id).orElseThrow(() -> new ResourceNotFoundException("Endereco nï¿½o encontrado"));
+		return this.enderecoDAO.findOne(id).orElseThrow(() -> new ResourceNotFoundException("Endereco não encontrado"));
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por atualizar as informaï¿½ï¿½es de um {@link Endereco} no banco de dados de acordo com os dados recebidos
-	 * no objeto que estï¿½ sendo passado por parï¿½metro.
+	 * Método responsável por atualizar as informações de um {@link Endereco} no banco de dados de acordo com os dados recebidos
+	 * no objeto que está sendo passado por parâmetro.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 * @param endereo
@@ -59,8 +56,8 @@ public class EnderecoService {
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por buscar todos os {@link Endereco}'s existentes no banco de dados. Se nenhum registro for encontrado
-	 * uma exceï¿½ï¿½o serï¿½ lanï¿½ada.
+	 * Método responsável por buscar todos os {@link Endereco}'s existentes no banco de dados. Se nenhum registro for encontrado
+	 * uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 * @return
@@ -71,9 +68,9 @@ public class EnderecoService {
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por remover um {@link Endereco} no banco de dados de acordo com o ID recebido por parï¿½metro. Se o
-	 * registro que serï¿½ deletado nï¿½o for encontrado uma exceï¿½ï¿½o serï¿½ lanï¿½ada.
-	 
+	 * Método responsável por remover um {@link Endereco} no banco de dados de acordo com o ID recebido por parâmetro. Se o
+	 * registro que será deletado não for encontrado uma exceção será lançada.
+	 * 
 	 * @author Brazil Code - Andrew Pereira
 	 * @param id
 	 * @throws ResourceNotFoundException
@@ -85,27 +82,22 @@ public class EnderecoService {
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por inserir um novo {@link Endereco} no banco de dados, verificando antes se o nome de usuario informado
-	 * estï¿½ disponï¿½vel para uso. Se o nome de usuï¿½rio jï¿½ tiver sido cadastrado para outro Usuario, uma exceï¿½ï¿½o serï¿½ lanï¿½ada.
+	 * Método responsável por inserir um novo {@link Endereco} no banco de dados.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 * @param endereco
 	 * @throws CommitException
-	 * @throws UniqueConstraintViolationException
 	 */
-	public void save(final Endereco endereco) throws CommitException, UniqueConstraintViolationException {
-		// Validando os campos unique antes de tentar salvar no banco de dados
-
+	public void save(final Endereco endereco) throws CommitException {
 		this.enderecoDAO.save(endereco);
 		this.enderecoDAO.commit();
 	}
-	
+
 	/**
-	 * Mï¿½todo responsï¿½vel por fechar a instancia do EntityManager.
+	 * Método responsável por fechar a instancia do EntityManager.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 */
-	
 	public void closeConnection() {
 		EnderecoService.EM.close();
 	}

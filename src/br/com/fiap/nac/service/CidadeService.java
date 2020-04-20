@@ -14,7 +14,7 @@ import br.com.fiap.nac.exception.UniqueConstraintViolationException;
 import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
 
 /**
- * Classe responsÃ¡vel por ...
+ * Classe responsável por aplicar as regras de negócio para {@link Cidade}.
  *
  * @author Brazil Code - Andrew Pereira
  * @since Apr 19, 2020 5:34:02 PM
@@ -28,13 +28,13 @@ public class CidadeService {
 	private static final EntityManager EM = EntityManagerFactorySingleton.getInstance().createEntityManager();
 
 	/**
-	 * Atributo CidadeDao
+	 * Atributo cidadeDao
 	 */
 	private CidadeDAO cidadeDao = new CidadeDAOImpl(EM);
 
 	/**
-	 * Mï¿½todo responsï¿½vel por buscar um {@link Cidade} no banco de dados de acordo com o ID recebido por parï¿½metro. Se nenhum
-	 * registro for encontrado uma exceï¿½ï¿½o serï¿½ lanï¿½ada.
+	 * Método responsável por buscar um {@link Cidade} no banco de dados de acordo com o ID recebido por parâmetro. Se nenhum
+	 * registro for encontrado uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 * @return
@@ -45,21 +45,24 @@ public class CidadeService {
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por atualizar as informaï¿½ï¿½es de um {@link Cidade} no banco de dados de acordo com os dados recebidos no
-	 * objeto que estï¿½ sendo passado por parï¿½metro.
+	 * Método responsável por atualizar as informações de um {@link Cidade} no banco de dados de acordo com os dados recebidos no
+	 * objeto que está sendo passado por parâmetro, verificando antes se a cidade informada já foi cadastrada anteriormente.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 * @param cidade
 	 * @throws CommitException
+	 * @throws UniqueConstraintViolationException
 	 */
-	public void update(final Cidade cidade) throws CommitException {
+	public void update(final Cidade cidade) throws CommitException, UniqueConstraintViolationException {
+		// Validando os campos unique antes de tentar salvar no banco de dados
+		this.validateUniqueFields(cidade);
 		this.cidadeDao.update(cidade);
 		this.cidadeDao.commit();
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por buscar todos os {@link Cidade}'s existentes no banco de dados. Se nenhum registro for encontrado uma
-	 * exceï¿½ï¿½o serï¿½ lanï¿½ada.
+	 * Método responsável por buscar todos os {@link Cidade}'s existentes no banco de dados. Se nenhum registro for encontrado uma
+	 * exceção será lançada.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 * @return
@@ -70,8 +73,8 @@ public class CidadeService {
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por remover um {@link Cidade} no banco de dados de acordo com o ID recebido por parï¿½metro. Se o registro
-	 * que serï¿½ deletado nï¿½o for encontrado uma exceï¿½ï¿½o serï¿½ lanï¿½ada.
+	 * Método responsável por remover um {@link Cidade} no banco de dados de acordo com o ID recebido por parâmetro. Se o registro
+	 * que será deletado não for encontrado uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 * @param id
@@ -84,8 +87,8 @@ public class CidadeService {
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por inserir um novo {@link Cidade} no banco de dados, verificando antes se o nome de usuario informado
-	 * estï¿½ disponï¿½vel para uso. Se o nome de usuï¿½rio jï¿½ tiver sido cadastrado para outro Usuario, uma exceï¿½ï¿½o serï¿½ lanï¿½ada.
+	 * Método responsável por inserir um novo {@link Cidade} no banco de dados, verificando antes se a cidade informada já foi
+	 * cadastrada anteriormente.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 * @param cidade
@@ -100,8 +103,8 @@ public class CidadeService {
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por validar todos os campos unique, para evitar erro de Constraint Violation no banco de dados. Se
-	 * alguma chave estrangeira for violada uma exceï¿½ï¿½o serï¿½ lanï¿½ada.
+	 * Método responsável por validar todos os campos unique, para evitar erro de Constraint Violation no banco de dados. Se
+	 * alguma chave estrangeira for violada uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 * @param cidade
@@ -110,17 +113,17 @@ public class CidadeService {
 	 */
 	private void validateUniqueFields(Cidade cidade) throws UniqueConstraintViolationException {
 		StringBuilder critics = new StringBuilder();
-
 		if (Optional.ofNullable(this.cidadeDao.findByDescricao(cidade.getDescricao())).isPresent()) {
-			critics.append(", Cidade ja cadastrada!");
+			critics.append(", Cidade já cadastrada!");
 		}
+
 		if (critics.length() > 1) {
 			throw new UniqueConstraintViolationException("Criticas" + critics.toString());
 		}
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por fechar a instancia do EntityManager.
+	 * Método responsável por fechar a instancia do EntityManager.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 */

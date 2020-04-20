@@ -63,13 +63,17 @@ public class UsuarioService {
 
 	/**
 	 * Método responsável por atualizar as informações de um {@link Usuario} no banco de dados de acordo com os dados recebidos no
-	 * objeto que está sendo passado por parâmetro.
+	 * objeto que está sendo passado por parâmetro, verificando antes se o nome de usuario informado está disponível para uso. Se
+	 * o nome de usuário já tiver sido cadastrado para outro Usuario, uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @param usuario
 	 * @throws CommitException
+	 * @throws UniqueConstraintViolationException
 	 */
-	public void update(final Usuario usuario) throws CommitException {
+	public void update(final Usuario usuario) throws CommitException, UniqueConstraintViolationException {
+		// Validando os campos unique antes de tentar salvar no banco de dados
+		this.validateUniqueFields(usuario);
 		this.usuarioDAO.update(usuario);
 		this.usuarioDAO.commit();
 	}

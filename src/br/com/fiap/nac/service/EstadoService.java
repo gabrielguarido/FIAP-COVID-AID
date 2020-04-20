@@ -14,7 +14,7 @@ import br.com.fiap.nac.exception.UniqueConstraintViolationException;
 import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
 
 /**
- * Classe responsï¿½vel por aplicar as regras de negï¿½cio para {@link Estado}.
+ * Classe responsável por aplicar as regras de negócios para {@link Estado}.
  *
  * @author Brazil Code - Gustavo Zotarelli
  * @since 19 de abr de 2020 22:08:45
@@ -33,7 +33,7 @@ public class EstadoService {
 	private EstadoDAO estadoDAO = new EstadoDAOImpl(EM);
 
 	/**
-	 * Mï¿½todo responsï¿½vel por inserri um novo {@link Estado} no banco de dados, veriricando se o estado e a uf jï¿½ nï¿½o se encontram
+	 * Método responsável por inserri um novo {@link Estado} no banco de dados, veriricando se o estado e a uf já não se encontram
 	 * cadastrados no sistema.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
@@ -42,14 +42,14 @@ public class EstadoService {
 	 * @throws UniqueConstraintViolationException
 	 */
 	public void save(final Estado estado) throws CommitException, UniqueConstraintViolationException {
-		// Verifica se o Estado ou a UF jï¿½ estï¿½o cadastrados.
+		// Validando os campos unique antes de tentar salvar no banco de dados
 		this.validateUniqueFields(estado);
 		this.estadoDAO.save(estado);
 		this.estadoDAO.commit();
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por busacar um {@link Estado} no banco de dados pelo ID informado por parï¿½metro.
+	 * Método responsável por busacar um {@link Estado} no banco de dados pelo ID informado por parâmetro.
 	 *
 	 * @author Brazil Code - Gabriel Guarido
 	 * @param id
@@ -57,24 +57,27 @@ public class EstadoService {
 	 * @throws ResourceNotFoundException
 	 */
 	public Estado findOne(final Long id) throws ResourceNotFoundException {
-		return this.estadoDAO.findOne(id).orElseThrow(() -> new ResourceNotFoundException("Estado nï¿½o encontrado"));
+		return this.estadoDAO.findOne(id).orElseThrow(() -> new ResourceNotFoundException("Estado não encontrado"));
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por atualizar as informaï¿½ï¿½es de um {@link Estado} no banco de dados de acordo com os dados recebidos no
-	 * objeto que estï¿½ sendo passado por parï¿½metro.
+	 * Método responsável por atualizar as informções de um {@link Estado} no banco de dados de acordo com os dados recebidos no
+	 * objeto que está sendo passado por parâmetro.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 * @param estado
 	 * @throws CommitException
+	 * @throws UniqueConstraintViolationException
 	 */
-	public void update(Estado estado) throws CommitException {
+	public void update(Estado estado) throws CommitException, UniqueConstraintViolationException {
+		// Validando os campos unique antes de tentar salvar no banco de dados
+		this.validateUniqueFields(estado);
 		this.estadoDAO.update(estado);
 		this.estadoDAO.commit();
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por remover um {@link Estado} no banco de dados de acordo com o ID recebido por parï¿½metro.
+	 * Método responsável por remover um {@link Estado} no banco de dados de acordo com o ID recebido por parâmetro.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 * @param id
@@ -87,19 +90,19 @@ public class EstadoService {
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por buscar todos os {@link Estado}'s existentes no banco de dados.
+	 * Método responsável por buscar todos os {@link Estado}'s existentes no banco de dados.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 * @return
 	 * @throws ResourceNotFoundException
 	 */
 	public List<Estado> findAll() throws ResourceNotFoundException {
-		return this.estadoDAO.findAll().orElseThrow(() -> new ResourceNotFoundException("Nï¿½o existem estados cadastrados"));
+		return this.estadoDAO.findAll().orElseThrow(() -> new ResourceNotFoundException("Não existem estados cadastrados"));
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por validar todos os campos unique, para evitar erro de Constraint Violation no banco de dados. Se
-	 * alguma chave estrangeira for violada uma exceï¿½ï¿½o serï¿½ lanï¿½ada.
+	 * Método responsável por validar todos os campos unique, para evitar erro de Constraint Violation no banco de dados. Se
+	 * alguma chave estrangeira for violada uma exceção será lançada.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 * @param estado
@@ -108,19 +111,19 @@ public class EstadoService {
 	private void validateUniqueFields(Estado estado) throws UniqueConstraintViolationException {
 		StringBuilder critics = new StringBuilder();
 		if (Optional.ofNullable(this.estadoDAO.findByDescricao(estado.getDescricao())).isPresent()) {
-			critics.append(", o nome do Estado jï¿½ se encontra cadastrado!");
+			critics.append(", o nome do Estado já se encontra cadastrado!");
 		} else if (Optional.ofNullable(this.estadoDAO.findByUf(estado.getUf())).isPresent()) {
-			critics.append(", a UF digitada jï¿½ se encontra cadastrada!");
+			critics.append(", a UF digitada já se encontra cadastrada!");
 		}
 
 		if (critics.length() > 1) {
-			throw new UniqueConstraintViolationException("Crï¿½ticas" + critics.toString());
+			throw new UniqueConstraintViolationException("Críticas" + critics.toString());
 		}
 
 	}
 
 	/**
-	 * Mï¿½todo responsï¿½vel por fechar a instï¿½ncia do EntityManager.
+	 * Método responsável por fechar a instï¿½ncia do EntityManager.
 	 *
 	 * @author Brazil Code - Gustavo Zotarelli
 	 */
