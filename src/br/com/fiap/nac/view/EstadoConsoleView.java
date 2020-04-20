@@ -1,20 +1,7 @@
 package br.com.fiap.nac.view;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.persistence.EntityManager;
-
-import br.com.fiap.nac.dao.EstadoDAO;
-import br.com.fiap.nac.dao.impl.EstadoDAOImpl;
-import br.com.fiap.nac.entity.Cidade;
 import br.com.fiap.nac.entity.Estado;
-import br.com.fiap.nac.exception.CommitException;
-import br.com.fiap.nac.exception.ResourceNotFoundException;
-import br.com.fiap.nac.exception.UniqueConstraintViolationException;
-import br.com.fiap.nac.service.CidadeService;
 import br.com.fiap.nac.service.EstadoService;
-import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
 
 /**
  * Classe main
@@ -26,30 +13,37 @@ import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
 public class EstadoConsoleView {
 
 	/**
-	 * Atributo usuarioService
+	 * Atributo estadoService
 	 */
 	private static EstadoService estadoService = new EstadoService();
 
+	/**
+	 * M�todo respons�vel por realizar o CRUD da entidade {@link Estado}.
+	 *
+	 * @author Brazil Code - Gustavo Zotarelli
+	 * @param args
+	 */
 	public static void main(String[] args) {
 
 		try {
-			// Criando e cadastrando novo estado
-			Estado estado = new Estado("Rio Grande do sul", "rs");
+			// Criando e cadastrando novo Estado
+			Estado estado = new Estado("BrRasz�lia", "DF");
 			estadoService.save(estado);
+			System.out.println("Estado cadastrado com sucesso!");
 
-			// Buscando cidade criada
+			// Buscando Estado criado
 			Estado estadoBD = estadoService.findOne(estado.getId());
 			System.out.println(estadoBD.toString());
 
-			// Atualizando o estado criado
-			estadoBD.setDescricao("Estado Alterado");
+			// Atualizando Estado cadastro
+			estadoBD.setDescricao("Bras�lia");
 			estadoService.update(estadoBD);
-			System.out.println("estado atualizado: " + estadoBD.getDescricao());
+			System.out.println("Estado atualizado: " + estadoBD.getDescricao());
 
-			// Removendo Cidade criado
+			// Removendo Estado
 			estadoService.delete(estadoBD.getId());
 
-			// Buscando todos os Usuarios existentes
+			// Buscando todos os Estados existentes
 			estadoService.findAll().forEach(es -> {
 				System.out.println(es.toString());
 			});
@@ -60,7 +54,5 @@ public class EstadoConsoleView {
 		} finally {
 			estadoService.closeConnection();
 		}
-
-	}
 
 }
