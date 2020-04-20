@@ -1,6 +1,7 @@
 package br.com.fiap.nac.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
@@ -93,11 +94,31 @@ public class CidadeService {
 	 */
 	public void save(final Cidade cidade) throws CommitException, UniqueConstraintViolationException {
 		// Validando os campos unique antes de tentar salvar no banco de dados
-
+		this.validateUniqueFields(cidade);
 		this.cidadeDao.save(cidade);
 		this.cidadeDao.commit();
 	}
-	
+
+	/**
+	 * M�todo respons�vel por validar todos os campos unique, para evitar erro de Constraint Violation no banco de dados. Se
+	 * alguma chave estrangeira for violada uma exce��o ser� lan�ada.
+	 *
+	 * @author Brazil Code - Andrew Pereira
+	 * @param cidade
+	 * @return
+	 * @throws UniqueConstraintViolationException
+	 */
+	private void validateUniqueFields(Cidade cidade) throws UniqueConstraintViolationException {
+		StringBuilder critics = new StringBuilder();
+
+		if (Optional.ofNullable(this.cidadeDao.findByDescricao(cidade.getDescricao())).isPresent()) {
+			critics.append(", Cidade ja cadastrada!");
+		}
+		if (critics.length() > 1) {
+			throw new UniqueConstraintViolationException("Criticas" + critics.toString());
+		}
+	}
+
 	/**
 	 * M�todo respons�vel por fechar a instancia do EntityManager.
 	 *

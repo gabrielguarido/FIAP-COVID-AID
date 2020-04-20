@@ -1,12 +1,14 @@
 package br.com.fiap.nac.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
 import br.com.fiap.nac.dao.EnderecoDAO;
 import br.com.fiap.nac.dao.impl.EnderecoDAOImpl;
 import br.com.fiap.nac.entity.Endereco;
+import br.com.fiap.nac.entity.Estado;
 import br.com.fiap.nac.exception.CommitException;
 import br.com.fiap.nac.exception.ResourceNotFoundException;
 import br.com.fiap.nac.exception.UniqueConstraintViolationException;
@@ -97,12 +99,13 @@ public class EnderecoService {
 		this.enderecoDAO.save(endereco);
 		this.enderecoDAO.commit();
 	}
-
+	
 	/**
 	 * M�todo respons�vel por fechar a instancia do EntityManager.
 	 *
 	 * @author Brazil Code - Andrew Pereira
 	 */
+	
 	public void closeConnection() {
 		EnderecoService.EM.close();
 	}

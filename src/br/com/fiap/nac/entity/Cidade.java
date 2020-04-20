@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * Classe responsável por mapear a tabela CIDADES no banco de dados.
+ * Classe responsï¿½vel por mapear a tabela CIDADES no banco de dados.
  *
  * @author Brazil Code - Andrew Pereira
  * @since Apr 10, 2020 3:33:10 PM
@@ -33,7 +33,7 @@ public class Cidade {
 	/**
 	 * Atributo descricao
 	 */
-	@Column(length = 30, nullable = false)
+	@Column(length = 30, nullable = false, unique = true)
 	private String descricao;
 
 	/**
