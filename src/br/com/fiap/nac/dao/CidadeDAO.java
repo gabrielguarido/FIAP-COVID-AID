@@ -9,6 +9,6 @@ import br.com.fiap.nac.entity.Cidade;
  * @since 10 de abr de 2020 16:21:08
  * @version 1.0
  */
-public interface CidadeDao extends GenericDAO<Cidade, Long> {
+public interface CidadeDAO extends GenericDAO<Cidade, Long> {
 
 }

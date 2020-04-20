@@ -3,7 +3,7 @@ package br.com.fiap.nac.view;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import br.com.fiap.nac.dao.EnderecoDao;
+import br.com.fiap.nac.dao.EnderecoDAO;
 import br.com.fiap.nac.dao.impl.CidadeDAOImpl;
 import br.com.fiap.nac.dao.impl.EnderecoDAOImpl;
 import br.com.fiap.nac.entity.Cidade;
@@ -17,7 +17,7 @@ import br.com.fiap.nac.singleton.EntityManagerFactorySingleton;
  * @since 10 de abr de 2020 16:25:41
  * @version 1.0
  */
-public class EnredecoConsoleView {
+public class EnderecoConsoleView {
 
 	/**
 	 * Método responsável por realizar o CRUD da entidade.
@@ -31,7 +31,7 @@ public class EnredecoConsoleView {
 		EntityManager em = factory.createEntityManager();
 
 		Cidade cidade = new CidadeDAOImpl(em).findOne(1l).get();
-		EnderecoDao dao = new EnderecoDAOImpl(em);
+		EnderecoDAO dao = new EnderecoDAOImpl(em);
 		Endereco endereco = new Endereco("Capao", "05798100", "Casa2", "Rua gersom marques da silva", cidade);
 
 		// Persist entity
